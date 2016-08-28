@@ -5,6 +5,9 @@ or look something up but you have to be registered on that website to do so?
 If so, I am sure you also know how annoying it can be to fill those forms and
 especially when are going to make a fake account.
 
+This program will make this easier and faster. It will fill those forms with
+fake data and will create fake e-mail addresses if needed.
+
 ### Why would you want to create a fake account?
 Of course, because of privacy issues. You don't want to be the product. In many
 cases it is not even worth to give your personal data away, because of the short
@@ -23,7 +26,7 @@ people out there some time!
 * It is possible that this project won't ever be runnable at all. I already can
 think of many big problems I will face, even before writing a single line of code.
 * My C++ skills are pretty low.
-** This project also servers as a practice playground for me. So if you see
+* This project also servers as a practice playground for me. So if you see
 anything that I could do better, __don't hesitate__ and tell me please.
 
 ## LICENSE
