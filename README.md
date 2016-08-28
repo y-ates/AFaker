@@ -20,9 +20,8 @@ people out there some time!
 
 ### NOTICE
 * This project is primarily to see where I can get this to.
-* It is possible that this project won't ever be runnable at all.
-** I already can think of many big problems I will face, even before writing a
-single line of code.
+* It is possible that this project won't ever be runnable at all. I already can
+think of many big problems I will face, even before writing a single line of code.
 * My C++ skills are pretty low.
 ** This project also servers as a practice playground for me. So if you see
 anything that I could do better, __don't hesitate__ and tell me please.
