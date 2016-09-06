@@ -39,6 +39,11 @@ public:
 		g_print("OMG TEST\r\n");
 	}
 
+	static void but_clicked(GtkWidget *widget, gpointer data){
+		g_print("Clicked\r\n");
+	}
+
+
 	static void create_helpWindow_about(){
 		GtkWidget *helpWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 		gtk_window_set_title(GTK_WINDOW(helpWindow), "About");
@@ -67,13 +72,20 @@ public:
 		 */
 	}
 
-	static void create_button(){
+	static GtkWidget *create_button(char *label){
 		/*
 		 * TODO:
 		 * Create buttons with this function so creating buttons won't
 		 * bloat the code.
 		 * Lets see how we will do the signal handling...
 		 */
+		GtkWidget *button = gtk_button_new_with_label(label);
+
+		g_signal_connect(button, "clicked",
+				 G_CALLBACK(GUI::but_clicked), NULL);
+		gtk_widget_show(button);
+
+		return button;
 	}
 
 	static void create_menubar(){
@@ -83,13 +95,26 @@ public:
 		 */
 	}
 
-	static void create_txtField(){
+	static GtkWidget *create_txtField(){
 		/*
 		 * TODO:
 		 * Create textfields with this funciton so creating textfields
 		 * won't bloat the code.
 		 * Lets see how we will extract the text individually...
 		 */
+		GtkWidget *tField = gtk_entry_new();
+
+		return tField;
+	}
+
+	static GtkWidget *create_checkbox(GtkWidget *grid, char *label){
+		GtkWidget *cbox;
+
+		cbox = gtk_check_button_new_with_label(label);
+		gtk_box_pack_start(GTK_BOX(grid), cbox, FALSE, FALSE, 10);
+		gtk_widget_show(cbox);
+
+		return cbox;
 	}
 
 	static void deactivate_txtField(){
@@ -140,7 +165,7 @@ int main(int argc, char *argv[]){
 	GtkWidget *menu_help;
 	GtkWidget *menu_help_about;
 	GtkWidget *menu_quit;
-
+	
 	/* Menu File */
 	menu_file = gtk_menu_item_new_with_label("File");
 	menu_file_choose = gtk_menu_item_new_with_label("Open");
@@ -182,22 +207,27 @@ int main(int argc, char *argv[]){
 	 * the user wants to set the value automatically or manually.
 	 * A button "send" to actually submit the forms is needed.
 	 */
-	GtkWidget *txt_name;
-	GtkWidget *txt_email;
+	GtkWidget *txt_name = GUI::create_txtField();
+	GtkWidget *txt_email = GUI::create_txtField();
 	GtkWidget *but_setName;
 	GtkWidget *but_setEmail;
-	but_setName = gtk_button_new_with_label("Set name");
-	but_setEmail = gtk_button_new_with_label("Set e-mail");
-	txt_name = gtk_entry_new();
-	txt_email = gtk_entry_new();
+	but_setName = GUI::create_button((char *)"Set name");
+	but_setEmail = GUI::create_button((char *)"set e-mail");
+	//but_setEmail = gtk_button_new_with_label("Set e-mail");
+	//txt_name = gtk_entry_new();
+	//txt_email = gtk_entry_new();
 	
-	g_signal_connect(but_setName, "clicked", G_CALLBACK(GUI::test), NULL);
-	g_signal_connect(but_setEmail, "clicked", G_CALLBACK(GUI::test), NULL);
+	//g_signal_connect(but_setName, "clicked", G_CALLBACK(GUI::test), NULL);
+	//g_signal_connect(but_setEmail, "clicked", G_CALLBACK(GUI::test), NULL);
 
 	/*
 	 * TODO:
 	 * Packing can be done much easier. Use table for textfields, buttons.
 	 */
+
+	// GtkWidget *grid_ = gtk_vbox_new(FALSE, 0);
+	// GtkWidget *cbox;
+	// cbox = GUI::create_checkbox(grid_, 'test');
 	
 	gtk_box_pack_start(GTK_BOX(grid), grid_menubar, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(grid), hbox1, FALSE, FALSE, 0);
@@ -207,6 +237,7 @@ int main(int argc, char *argv[]){
 
 	gtk_box_pack_start(GTK_BOX(vbox1), grid1, FALSE, FALSE, 2);
 	gtk_box_pack_start(GTK_BOX(vbox1), grid2, FALSE, FALSE, 2);
+	//gtk_box_pack_start(GTK_BOX(vbox1), grid_, FALSE, FALSE, 2);
 	gtk_box_pack_start(GTK_BOX(vbox2), grid3, FALSE, FALSE, 2);
 	gtk_box_pack_start(GTK_BOX(vbox2), grid4, FALSE, FALSE, 2);
 	
