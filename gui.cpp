@@ -18,9 +18,6 @@
 #include <gtk/gtk.h>
 #include <iostream>
 #include <string.h>
-//#define GUI
-//#include "gui_vars.h"
-//#include "gui_funcs.h"
 
 using namespace std;
 
@@ -79,6 +76,13 @@ public:
 		 */
 	}
 
+	static void create_menubar(){
+		/*
+		 * TODO:
+		 * This will create the menubar.
+		 */
+	}
+
 	static void create_txtField(){
 		/*
 		 * TODO:
@@ -90,7 +94,9 @@ public:
 
 	static void deactivate_txtField(){
 		/*
-		 * 
+		 * TODO:
+		 * Textfields will be deactivated if the user wishes to set the
+		 * value individually.
 		 */
 	}
 	
@@ -110,7 +116,6 @@ int main(int argc, char *argv[]){
 	gtk_container_set_border_width(GTK_CONTAINER(main_window), 2);
 	g_signal_connect(main_window, "destroy", G_CALLBACK(gtk_main_quit),
 			 NULL);
-
         
 	/* Grid */
 	GtkWidget *grid = gtk_vbox_new(FALSE, 0);
@@ -171,6 +176,12 @@ int main(int argc, char *argv[]){
 			 G_CALLBACK(GUI::create_helpWindow_about), NULL);
      	
 	/* Buttons */
+	/*
+	 * I think we won't need individual buttons for every textfield later
+	 * on. A checkbox next to the textfield will suffice to control whether
+	 * the user wants to set the value automatically or manually.
+	 * A button "send" to actually submit the forms is needed.
+	 */
 	GtkWidget *txt_name;
 	GtkWidget *txt_email;
 	GtkWidget *but_setName;
@@ -182,8 +193,6 @@ int main(int argc, char *argv[]){
 	
 	g_signal_connect(but_setName, "clicked", G_CALLBACK(GUI::test), NULL);
 	g_signal_connect(but_setEmail, "clicked", G_CALLBACK(GUI::test), NULL);
-
-	//gtk_widget_set_size_request(GTK_WIDGET(but_setName), 75, 1);
 
 	/*
 	 * TODO:
