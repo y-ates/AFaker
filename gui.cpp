@@ -19,7 +19,7 @@
 #include <iostream>
 #include <string.h>
 //#define GUI
-#include "gui_vars.h"
+//#include "gui_vars.h"
 //#include "gui_funcs.h"
 
 using namespace std;
