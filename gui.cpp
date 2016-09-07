@@ -23,13 +23,6 @@ using namespace std;
 
 class GUI{
 private:
-
-	GtkWidget *create_button(GtkWidget *table, char *label, int row,
-				 int column){
-		GtkWidget *button = gtk_button_new_with_label(label);
-				
-	}
-
 	
 public:
 	GUI(){
@@ -73,12 +66,6 @@ public:
 	}
 
 	static GtkWidget *create_button(char *label){
-		/*
-		 * TODO:
-		 * Create buttons with this function so creating buttons won't
-		 * bloat the code.
-		 * Lets see how we will do the signal handling...
-		 */
 		GtkWidget *button = gtk_button_new_with_label(label);
 
 		g_signal_connect(button, "clicked",
@@ -88,17 +75,65 @@ public:
 		return button;
 	}
 
-	static void create_menubar(){
-		/*
-		 * TODO:
-		 * This will create the menubar.
-		 */
+	static GtkWidget *create_menubar(GtkWidget *grid_menubar){
+		GtkWidget *menubar = gtk_menu_bar_new();
+		GtkWidget *fileMenu = gtk_menu_new();
+		GtkWidget *helpMenu = gtk_menu_new();	
+		GtkWidget *menu_file;
+		GtkWidget *menu_choose = gtk_menu_new();
+		GtkWidget *menu_file_choose;
+		GtkWidget *menu_file_mailList;
+		GtkWidget *menu_file_nameList;
+		GtkWidget *menu_help;
+		GtkWidget *menu_help_about;
+		GtkWidget *menu_quit;
+	
+		/* Menu File */
+		menu_file = gtk_menu_item_new_with_label("File");
+		menu_file_choose = gtk_menu_item_new_with_label("Open");
+		menu_file_mailList = gtk_menu_item_new_with_label("E-Mail addresses");
+		menu_file_nameList = gtk_menu_item_new_with_label("Names");
+		menu_quit = gtk_menu_item_new_with_label("Quit");
+		/* Menu Help */
+		menu_help = gtk_menu_item_new_with_label("Help");
+		menu_help_about = gtk_menu_item_new_with_label("About");
+
+		/* File -> */
+		gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_file), fileMenu);
+		gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), menu_file_choose);
+		gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), menu_quit);
+	
+		/* File -> open */
+		gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_file_choose),
+					  menu_choose);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu_choose),
+				      menu_file_nameList);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu_choose),
+				      menu_file_mailList);
+
+		/* Help -> */
+		gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_help), helpMenu);
+		gtk_menu_shell_append(GTK_MENU_SHELL(helpMenu),
+				      menu_help_about);
+	
+		gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menu_file);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menu_help);
+		gtk_box_pack_start(GTK_BOX(grid_menubar), menubar, FALSE,
+				   FALSE, 0);
+
+		g_signal_connect(G_OBJECT(menu_quit), "activate",
+				 G_CALLBACK(gtk_main_quit), NULL);
+		g_signal_connect(G_OBJECT(menu_help_about), "activate",
+				 G_CALLBACK(GUI::create_helpWindow_about),
+				 NULL);
+
+		return menubar;
 	}
 
 	static GtkWidget *create_txtField(){
 		/*
 		 * TODO:
-		 * Create textfields with this funciton so creating textfields
+		 * Create textfields with this function so creating textfields
 		 * won't bloat the code.
 		 * Lets see how we will extract the text individually...
 		 */
@@ -153,53 +188,7 @@ int main(int argc, char *argv[]){
 	GtkWidget *vbox2 = gtk_vbox_new(FALSE, 0);
 	GtkWidget *hbox1 = gtk_hbox_new(FALSE, 0);
 
-	/* Menubar */
-	GtkWidget *menubar = gtk_menu_bar_new();
-	GtkWidget *fileMenu = gtk_menu_new();
-	GtkWidget *helpMenu = gtk_menu_new();	
-	GtkWidget *menu_file;
-	GtkWidget *menu_choose = gtk_menu_new();
-	GtkWidget *menu_file_choose;
-	GtkWidget *menu_file_mailList;
-	GtkWidget *menu_file_nameList;
-	GtkWidget *menu_help;
-	GtkWidget *menu_help_about;
-	GtkWidget *menu_quit;
-	
-	/* Menu File */
-	menu_file = gtk_menu_item_new_with_label("File");
-	menu_file_choose = gtk_menu_item_new_with_label("Open");
-	menu_file_mailList = gtk_menu_item_new_with_label("E-Mail addresses");
-	menu_file_nameList = gtk_menu_item_new_with_label("Names");
-	menu_quit = gtk_menu_item_new_with_label("Quit");
-	/* Menu Help */
-	menu_help = gtk_menu_item_new_with_label("Help");
-	menu_help_about = gtk_menu_item_new_with_label("About");
-
-
-	/* File -> */
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_file), fileMenu);
-	gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), menu_file_choose);
-	gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), menu_quit);
-	
-	/* File -> open */
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_file_choose), menu_choose);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu_choose), menu_file_nameList);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu_choose), menu_file_mailList);
-
-	/* Help -> */
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_help), helpMenu);
-	gtk_menu_shell_append(GTK_MENU_SHELL(helpMenu), menu_help_about);
-	
-	gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menu_file);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menu_help);
-	gtk_box_pack_start(GTK_BOX(grid_menubar), menubar, FALSE, FALSE, 0);
-
-	g_signal_connect(G_OBJECT(menu_quit), "activate",
-			 G_CALLBACK(gtk_main_quit), NULL);
-	g_signal_connect(G_OBJECT(menu_help_about), "activate",
-			 G_CALLBACK(GUI::create_helpWindow_about), NULL);
-     	
+	GUI::create_menubar(grid_menubar);
 	/* Buttons */
 	/*
 	 * I think we won't need individual buttons for every textfield later
