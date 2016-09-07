@@ -32,8 +32,9 @@ public:
 		g_print("OMG TEST\r\n");
 	}
 
-	static void but_clicked(GtkWidget *widget, gpointer data){
+	static void but_clicked(GtkWidget *widget, GtkWidget *txtField){
 		g_print("Clicked\r\n");
+		//g_print(getContent_txtField(GTK_WIDGET(txtField)));
 	}
 
 
@@ -65,11 +66,11 @@ public:
 		 */
 	}
 
-	static GtkWidget *create_button(char *label){
+	static GtkWidget *create_button(char *label, GtkWidget *txtField){
 		GtkWidget *button = gtk_button_new_with_label(label);
 
 		g_signal_connect(button, "clicked",
-				 G_CALLBACK(GUI::but_clicked), NULL);
+				 G_CALLBACK(GUI::but_clicked), (button, txtField));
 		gtk_widget_show(button);
 
 		return button;
@@ -138,9 +139,24 @@ public:
 		 * Lets see how we will extract the text individually...
 		 */
 		GtkWidget *tField = gtk_entry_new();
-
+		
 		return tField;
 	}
+
+	static const gchar *getContent_txtField(GtkWidget *txtField){
+		return gtk_entry_get_text(GTK_ENTRY(txtField));
+	}
+
+	static void deactivate_txtField(GtkWidget *txtField){
+		gtk_editable_set_editable(GTK_EDITABLE(txtField), FALSE);
+		gtk_widget_set_can_focus(GTK_WIDGET(txtField), FALSE);
+		
+		const GdkColor GREY = {0, 48000, 48000, 48000};
+		gtk_widget_modify_base(txtField, GTK_STATE_NORMAL, &GREY);
+
+		//gtk_entry_set_text(GTK_ENTRY(tField), "TEST");
+	}
+
 
 	static GtkWidget *create_checkbox(GtkWidget *grid, char *label){
 		GtkWidget *cbox;
@@ -152,13 +168,9 @@ public:
 		return cbox;
 	}
 
-	static void deactivate_txtField(){
-		/*
-		 * TODO:
-		 * Textfields will be deactivated if the user wishes to set the
-		 * value individually.
-		 */
-	}
+	// static GtkWidget *create_label(){
+		
+	// }
 	
 };
 
@@ -197,11 +209,12 @@ int main(int argc, char *argv[]){
 	 * A button "send" to actually submit the forms is needed.
 	 */
 	GtkWidget *txt_name = GUI::create_txtField();
+	GUI::deactivate_txtField(txt_name);
 	GtkWidget *txt_email = GUI::create_txtField();
 	GtkWidget *but_setName;
 	GtkWidget *but_setEmail;
-	but_setName = GUI::create_button((char *)"Set name");
-	but_setEmail = GUI::create_button((char *)"set e-mail");
+	but_setName = GUI::create_button((char *)"Set name", txt_name);
+	but_setEmail = GUI::create_button((char *)"set e-mail", txt_email);
 	//but_setEmail = gtk_button_new_with_label("Set e-mail");
 	//txt_name = gtk_entry_new();
 	//txt_email = gtk_entry_new();
