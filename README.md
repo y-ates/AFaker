@@ -3,7 +3,7 @@
 Do you know those moments, where you need to make small changes, download something
 or look something up but you have to be registered on that website to do so?
 Then I am sure you also know how annoying it can be to fill those forms to register and
-especially when are going to make a fake account.
+especially when you are going to make a fake account.
 
 This program will make this easier and faster. It will fill those forms with
 fake data and will create fake e-mail addresses and stuff if needed.
