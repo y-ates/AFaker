@@ -30,6 +30,7 @@ public:
 
 	static void test(GtkWidget *widget, gpointer data){
 		g_print("Oh my God look at her ....\r\n");
+		g_print("---------------------------\r\n");
 	}
 
 	static void but_clicked(GtkWidget *widget, GtkWidget *txtField){
