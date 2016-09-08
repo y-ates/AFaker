@@ -1,5 +1,5 @@
 CC=g++ # TODO if g++ not available compile with gcc (little adjustment)
-CFLAGS= #-Wall
+CFLAGS= -std=c++11 #-Wall
 LDFLAGS=
 pkg-config=`pkg-config --libs --cflags gtk+-2.0`
 SOURCES=gui.cpp

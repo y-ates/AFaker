@@ -1,4 +1,4 @@
-/******************************************************************************
+ /******************************************************************************
  ** Copyright (C) 2016 Yakup Ates <Yakup.Ates@rub.de>
 
  ** This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,8 @@
 
 #include <gtk/gtk.h>
 #include <iostream>
-#include <string.h>
+#include <string>
+#include <vector>
 
 using namespace std;
 
@@ -66,7 +67,7 @@ public:
 		 */
 	}
 
-	static GtkWidget *create_button(char *label, GtkWidget *txtField){
+	static GtkWidget *create_button(const char *label, GtkWidget *txtField){
 		GtkWidget *button = gtk_button_new_with_label(label);
 
 		g_signal_connect(button, "clicked",
@@ -134,9 +135,8 @@ public:
 	static GtkWidget *create_txtField(){
 		/*
 		 * TODO:
-		 * Create textfields with this function so creating textfields
-		 * won't bloat the code.
-		 * Lets see how we will extract the text individually...
+		 * Get content of textfield if "edit"-checkbox is checked.
+		 * We need to be able to address each textfield individually.
 		 */
 		GtkWidget *tField = gtk_entry_new();
 		
@@ -158,17 +158,25 @@ public:
 	}
 
 
-	static GtkWidget *create_checkbox(GtkWidget *grid, char *label){
+	static GtkWidget *create_checkbox(const char *label){
+		/*
+		 * TODO:
+		 * We need to be able to address each textfield individually.
+		 */
+
 		GtkWidget *cbox;
 
 		cbox = gtk_check_button_new_with_label(label);
-		//gtk_box_pack_start(GTK_BOX(grid), cbox, FALSE, FALSE, 10);
-		//gtk_widget_show(cbox);
 
 		return cbox;
 	}
 
-	static GtkWidget *create_label(char *txt_label){
+	static GtkWidget *create_label(const char *txt_label){
+		/*
+		 * TODO:
+		 * We need to be able to address each textfield individually.
+		 */
+
 		GtkWidget *label = gtk_label_new(txt_label);
 
 		gtk_label_set_text(GTK_LABEL(label), txt_label);
@@ -179,6 +187,12 @@ public:
 	static GtkWidget *pack_label_txtField_checkbox(GtkWidget *label,
 						       GtkWidget *txtField,
 						       GtkWidget *checkbox){
+		/*
+		 * TODO:
+		 * Can we address the GtkWidgets contained in a grid
+		 * individually?
+		 */
+		
 		GtkWidget *grid_label = gtk_hbox_new(FALSE, 0);
 		GtkWidget *grid_txtField = gtk_hbox_new(FALSE, 0);
 		GtkWidget *grid_checkbox = gtk_hbox_new(FALSE, 0);
@@ -199,7 +213,7 @@ public:
 		gtk_box_pack_start(GTK_BOX(hgrid_all), grid_label, FALSE,
 				   FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(hgrid_all), grid_txtField, FALSE,
-				   FALSE, 0);
+				   FALSE, 5);
 		gtk_box_pack_start(GTK_BOX(hgrid_all), grid_checkbox, FALSE,
 				   FALSE, 0);
 						
@@ -230,7 +244,6 @@ int main(int argc, char *argv[]){
 	GtkWidget *grid2 = gtk_hbox_new(FALSE, 0);
 	GtkWidget *grid3 = gtk_hbox_new(FALSE, 0);
 	GtkWidget *grid4 = gtk_hbox_new(FALSE, 0);
-	GtkWidget *grid5 = gtk_hbox_new(FALSE, 0);
 	GtkWidget *grid_menubar = gtk_vbox_new(FALSE, 0);
 	GtkWidget *vbox1 = gtk_vbox_new(FALSE, 0);	
 	GtkWidget *vbox2 = gtk_vbox_new(FALSE, 0);
@@ -249,8 +262,8 @@ int main(int argc, char *argv[]){
 	GtkWidget *txt_email = GUI::create_txtField();
 	GtkWidget *but_setName;
 	GtkWidget *but_setEmail;
-	but_setName = GUI::create_button((char *)"Set name", txt_name);
-	but_setEmail = GUI::create_button((char *)"set e-mail", txt_email);
+	but_setName = GUI::create_button("Set name", txt_name);
+	but_setEmail = GUI::create_button("set e-mail", txt_email);
 	//but_setEmail = gtk_button_new_with_label("Set e-mail");
 	//txt_name = gtk_entry_new();
 	//txt_email = gtk_entry_new();
@@ -259,42 +272,49 @@ int main(int argc, char *argv[]){
 	//g_signal_connect(but_setEmail, "clicked", G_CALLBACK(GUI::test), NULL);
 
 
-	GtkWidget *tstGrid = gtk_vbox_new(FALSE, 0);
-	GtkWidget *tstLabel = GUI::create_label("test");
-	GtkWidget *tstTxtField = GUI::create_txtField();
-	GtkWidget *tstCheckbox = GUI::create_checkbox(tstGrid, "testCheckbox");
-	tstGrid = GUI::pack_label_txtField_checkbox(tstLabel, tstTxtField, tstCheckbox);
+	/*
+	 * We are going to create the widgets like this but dynamically.
+	 * The form names will be extracted and used here (of the website).
+	 */
+	GtkWidget *hbox0 = gtk_vbox_new(FALSE, 5);
+	GtkWidget *tstGrid;
+	GtkWidget *tstLabel;
+	GtkWidget *tstTxtField;
+	GtkWidget *tstCheckbox;
+	
+	vector<string> labels {"Name", "E-Mail", "Phone"};
+	const char *asd[] = {"Name", "E-Mail", "Phone"};
+	for(int i=0; i<3; i++){
+		tstGrid = gtk_vbox_new(FALSE, 0);
+		tstLabel = GUI::create_label(labels[i].c_str());
+		tstTxtField = GUI::create_txtField();
+		tstCheckbox = GUI::create_checkbox("Edit");
+		tstGrid = GUI::pack_label_txtField_checkbox(tstLabel, tstTxtField,
+							    tstCheckbox);
+		gtk_box_pack_start(GTK_BOX(hbox0), tstGrid, FALSE, FALSE, 0);
+
+	}
 	
 	/*
 	 * TODO:
 	 * Packing can be done much easier. Use table for textfields, buttons.
 	 */
-
-	// GtkWidget *grid_ = gtk_vbox_new(FALSE, 0);
-	// GtkWidget *cbox;
-	// cbox = GUI::create_checkbox(grid_, 'test');
-	
 	gtk_box_pack_start(GTK_BOX(grid), grid_menubar, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(grid), hbox1, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox1), hbox0, FALSE, FALSE, 5);
+
 	//gtk_box_pack_start(GTK_BOX(hbox1), vbox2, FALSE, FALSE, 5);
 	//gtk_box_pack_start(GTK_BOX(hbox1), vbox1, FALSE, FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(hbox1), tstGrid, FALSE, FALSE, 5);
 
-
-	gtk_box_pack_start(GTK_BOX(vbox1), grid1, FALSE, FALSE, 2);
-	gtk_box_pack_start(GTK_BOX(vbox1), grid2, FALSE, FALSE, 2);
-	//gtk_box_pack_start(GTK_BOX(vbox1), grid_, FALSE, FALSE, 2);
-	gtk_box_pack_start(GTK_BOX(vbox2), grid3, FALSE, FALSE, 2);
-	gtk_box_pack_start(GTK_BOX(vbox2), grid4, FALSE, FALSE, 2);
-	//
-	//gtk_box_pack_start(GTK_BOX(vbox2), grid5, FALSE, FALSE, 2);
+	// gtk_box_pack_start(GTK_BOX(vbox1), grid1, FALSE, FALSE, 2);
+	// gtk_box_pack_start(GTK_BOX(vbox1), grid2, FALSE, FALSE, 2);
+	// gtk_box_pack_start(GTK_BOX(vbox2), grid3, FALSE, FALSE, 2);
+	// gtk_box_pack_start(GTK_BOX(vbox2), grid4, FALSE, FALSE, 2);
 	
-	gtk_box_pack_start(GTK_BOX(grid1), but_setName, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(grid2), but_setEmail, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(grid3), txt_name, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(grid4), txt_email, FALSE, FALSE, 0);
-	//
-	//gtk_box_pack_start(GTK_BOX(grid5), tstCheckbox, FALSE, FALSE, 0);
+	// gtk_box_pack_start(GTK_BOX(grid1), but_setName, FALSE, FALSE, 0);
+	// gtk_box_pack_start(GTK_BOX(grid2), but_setEmail, FALSE, FALSE, 0);
+	// gtk_box_pack_start(GTK_BOX(grid3), txt_name, FALSE, FALSE, 0);
+	// gtk_box_pack_start(GTK_BOX(grid4), txt_email, FALSE, FALSE, 0);
 	
 	gtk_container_add(GTK_CONTAINER(main_window), grid);
 	gtk_widget_show_all(main_window);			 
