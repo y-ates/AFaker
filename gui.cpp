@@ -166,7 +166,7 @@ public:
 		return menubar;
 	}
 
-	static void choose_mailList(GtkWindow *parent_window){
+	static void choose_mailList(GtkWidget *parent_window, gpointer data){
 		GtkWidget *dialog;
 		dialog = gtk_file_chooser_dialog_new("Open File",
 						     GTK_WINDOW(parent_window),
@@ -287,8 +287,9 @@ public:
 		GtkWidget *label;
 		GtkWidget *txtField;
 		GtkWidget *checkbox;
+		int label_count = labels.size();
 
-		for(int i=0; i<labels.size(); i++){
+		for(int i=0; i<label_count; i++){
 			txtField= GUI::create_txtField();
 			checkbox = GUI::create_checkbox("Edit");
 			label = GUI::create_label(labels[i].c_str());
