@@ -99,14 +99,12 @@ public:
 	static GtkWidget *create_button(const char *label){
 		GtkWidget *button = gtk_button_new_with_label(label);
 
-		// g_signal_connect(button, "clicked",
-		// 		 G_CALLBACK(GUI::but_clicked), (button, txtField));
 		gtk_widget_show(button);
 
 		return button;
 	}
 
-	static GtkWidget *create_menubar(GtkWidget *grid_menubar){
+	static GtkWidget *create_menubar(GtkWidget *grid_menubar, GtkWidget *main_window){
 		/*
 		 * TODO:
 		 * File->Open->* needs a file browser etc.
@@ -159,11 +157,31 @@ public:
 
 		g_signal_connect(G_OBJECT(menu_quit), "activate",
 				 G_CALLBACK(gtk_main_quit), NULL);
+		g_signal_connect(G_OBJECT(menu_file_mailList), "activate",
+				 G_CALLBACK(choose_mailList), main_window);
 		g_signal_connect(G_OBJECT(menu_help_about), "activate",
 				 G_CALLBACK(GUI::create_helpWindow_about),
 				 NULL);
 
 		return menubar;
+	}
+
+	static void choose_mailList(GtkWindow *parent_window){
+		GtkWidget *dialog;
+		dialog = gtk_file_chooser_dialog_new("Open File",
+						     GTK_WINDOW(parent_window),
+						     GTK_FILE_CHOOSER_ACTION_OPEN,
+						     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+						     GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+						     NULL);
+		if(gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT){
+				char *filename;
+				filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER (dialog));
+				cout << filename << endl;
+				// open_file (filename);
+				// g_free (filename);
+		}
+		gtk_widget_destroy(dialog);
 	}
 
 	static GtkWidget *create_txtField(){
@@ -270,15 +288,14 @@ public:
 		GtkWidget *txtField;
 		GtkWidget *checkbox;
 
-		//vector<string> labels {"Name", "E-Mail", "Phone"};
 		for(int i=0; i<labels.size(); i++){
 			txtField= GUI::create_txtField();
 			checkbox = GUI::create_checkbox("Edit");
 			label = GUI::create_label(labels[i].c_str());
 
 			gridLine = GUI::pack_label_txtField_checkbox(label,
-								    txtField,
-								    checkbox);
+								     txtField,
+								     checkbox);
 			gtk_box_pack_start(GTK_BOX(hbox), gridLine, FALSE,
 					   FALSE, 0);
 		}
@@ -313,7 +330,7 @@ int main(int argc, char *argv[]){
 	GtkWidget *hbox0 = gtk_hbox_new(FALSE, 0);
 	hbox0 = GUI::create_grid_packed({"Name", "E-Mail", "Phone", "test"});
 
-	GUI::create_menubar(grid_menubar);
+	GUI::create_menubar(grid_menubar, main_window);
 
 	/*
 	 * I think we won't need individual buttons for every textfield later
