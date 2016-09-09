@@ -29,8 +29,13 @@ public:
 	GUI(){
 	}
 
-	static void test(GtkWidget *widget, gpointer data){
-		g_print("OMG TEST\r\n");
+	static void but_send(GtkWidget *widget, gpointer data){
+		g_print("Sending...\r\n");
+		
+		/*
+		 * TODO:
+		 * Get value of all forms and call send function.
+		 */
 	}
 
 	static void but_clicked(GtkWidget *widget, GtkWidget *txtField){
@@ -38,7 +43,22 @@ public:
 		//g_print(getContent_txtField(GTK_WIDGET(txtField)));
 	}
 
+	static void chkbox_on(GtkWidget *widget){
+		/*
+		 * TODO:
+		 * User wants to edit form field manually. Set textfield
+		 * editable and get value when "send" button is clicked
+		 */
+	}
 
+	static void chkbox_off(GtkWidget *widget){
+		/*
+		 * TODO:
+		 * Checkbox is off per default. That means that the form is
+		 * filled automatically with dynamically generated data.
+		 */
+	}
+	
 	static void create_helpWindow_about(){
 		GtkWidget *helpWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 		gtk_window_set_title(GTK_WINDOW(helpWindow), "About");
@@ -70,8 +90,8 @@ public:
 	static GtkWidget *create_button(const char *label, GtkWidget *txtField){
 		GtkWidget *button = gtk_button_new_with_label(label);
 
-		g_signal_connect(button, "clicked",
-				 G_CALLBACK(GUI::but_clicked), (button, txtField));
+		// g_signal_connect(button, "clicked",
+		// 		 G_CALLBACK(GUI::but_clicked), (button, txtField));
 		gtk_widget_show(button);
 
 		return button;
@@ -240,81 +260,57 @@ int main(int argc, char *argv[]){
         
 	/* Grid */
 	GtkWidget *grid = gtk_vbox_new(FALSE, 0);
-	GtkWidget *grid1 = gtk_hbox_new(FALSE, 0);
-	GtkWidget *grid2 = gtk_hbox_new(FALSE, 0);
-	GtkWidget *grid3 = gtk_hbox_new(FALSE, 0);
-	GtkWidget *grid4 = gtk_hbox_new(FALSE, 0);
 	GtkWidget *grid_menubar = gtk_vbox_new(FALSE, 0);
-	GtkWidget *vbox1 = gtk_vbox_new(FALSE, 0);	
-	GtkWidget *vbox2 = gtk_vbox_new(FALSE, 0);
 	GtkWidget *hbox1 = gtk_hbox_new(FALSE, 0);
-
+	
 	GUI::create_menubar(grid_menubar);
-	/* Buttons */
+
 	/*
 	 * I think we won't need individual buttons for every textfield later
 	 * on. A checkbox next to the textfield will suffice to control whether
 	 * the user wants to set the value automatically or manually.
 	 * A button "send" to actually submit the forms is needed.
 	 */
-	GtkWidget *txt_name = GUI::create_txtField();
-	GUI::deactivate_txtField(txt_name);
-	GtkWidget *txt_email = GUI::create_txtField();
-	GtkWidget *but_setName;
-	GtkWidget *but_setEmail;
-	but_setName = GUI::create_button("Set name", txt_name);
-	but_setEmail = GUI::create_button("set e-mail", txt_email);
-	//but_setEmail = gtk_button_new_with_label("Set e-mail");
-	//txt_name = gtk_entry_new();
-	//txt_email = gtk_entry_new();
+	//GUI::deactivate_txtField(txt_name);
 	
-	//g_signal_connect(but_setName, "clicked", G_CALLBACK(GUI::test), NULL);
-	//g_signal_connect(but_setEmail, "clicked", G_CALLBACK(GUI::test), NULL);
-
-
 	/*
 	 * We are going to create the widgets like this but dynamically.
 	 * The form names will be extracted and used here (of the website).
 	 */
 	GtkWidget *hbox0 = gtk_vbox_new(FALSE, 5);
-	GtkWidget *tstGrid;
+	GtkWidget *tstGrid = gtk_vbox_new(FALSE, 0);;
 	GtkWidget *tstLabel;
 	GtkWidget *tstTxtField;
 	GtkWidget *tstCheckbox;
 	
 	vector<string> labels {"Name", "E-Mail", "Phone"};
-	const char *asd[] = {"Name", "E-Mail", "Phone"};
 	for(int i=0; i<3; i++){
-		tstGrid = gtk_vbox_new(FALSE, 0);
-		tstLabel = GUI::create_label(labels[i].c_str());
-		tstTxtField = GUI::create_txtField();
+		tstTxtField= GUI::create_txtField();
 		tstCheckbox = GUI::create_checkbox("Edit");
-		tstGrid = GUI::pack_label_txtField_checkbox(tstLabel, tstTxtField,
+		tstLabel = GUI::create_label(labels[i].c_str());
+		
+		tstGrid = GUI::pack_label_txtField_checkbox(tstLabel,
+							    tstTxtField,
 							    tstCheckbox);
 		gtk_box_pack_start(GTK_BOX(hbox0), tstGrid, FALSE, FALSE, 0);
-
 	}
+
+	GtkWidget *but_grid_send = gtk_vbox_new(FALSE, 0);
+	GtkWidget *but_send = GUI::create_button("Send", tstTxtField);
+	g_signal_connect(but_send, "clicked", G_CALLBACK(GUI::but_send), NULL);
 	
 	/*
 	 * TODO:
 	 * Packing can be done much easier. Use table for textfields, buttons.
+	 * Do we want a fixed window size?
+	 * How do we handle many forms? What about a maximum count of allowed
+	 * forms?
 	 */
 	gtk_box_pack_start(GTK_BOX(grid), grid_menubar, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(grid), hbox1, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox1), hbox0, FALSE, FALSE, 5);
-
-	//gtk_box_pack_start(GTK_BOX(hbox1), vbox2, FALSE, FALSE, 5);
-	//gtk_box_pack_start(GTK_BOX(hbox1), vbox1, FALSE, FALSE, 5);
-
-	// gtk_box_pack_start(GTK_BOX(vbox1), grid1, FALSE, FALSE, 2);
-	// gtk_box_pack_start(GTK_BOX(vbox1), grid2, FALSE, FALSE, 2);
-	// gtk_box_pack_start(GTK_BOX(vbox2), grid3, FALSE, FALSE, 2);
-	// gtk_box_pack_start(GTK_BOX(vbox2), grid4, FALSE, FALSE, 2);
-	
-	// gtk_box_pack_start(GTK_BOX(grid1), but_setName, FALSE, FALSE, 0);
-	// gtk_box_pack_start(GTK_BOX(grid2), but_setEmail, FALSE, FALSE, 0);
-	// gtk_box_pack_start(GTK_BOX(grid3), txt_name, FALSE, FALSE, 0);
-	// gtk_box_pack_start(GTK_BOX(grid4), txt_email, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(but_grid_send), but_send, FALSE, FALSE, 5);
+	gtk_box_pack_start(GTK_BOX(hbox1), but_grid_send, FALSE, FALSE, 50);
 	
 	gtk_container_add(GTK_CONTAINER(main_window), grid);
 	gtk_widget_show_all(main_window);			 
