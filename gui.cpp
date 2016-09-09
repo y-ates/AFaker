@@ -45,6 +45,7 @@ public:
 
 	static void chkbox_on(GtkWidget *widget){
 		cout << "on" << endl;
+		//activate_txtField(widget);
 		/*
 		 * TODO:
 		 * User wants to edit form field manually. Set textfield
@@ -54,6 +55,7 @@ public:
 
 	static void chkbox_off(GtkWidget *widget){
 		cout << "off" << endl;
+		//deactivate_txtField(widget);
 		/*
 		 * TODO:
 		 * Checkbox is off per default. That means that the form is
@@ -207,6 +209,14 @@ public:
 		gtk_widget_modify_base(txtField, GTK_STATE_NORMAL, &GREY);
 
 		//gtk_entry_set_text(GTK_ENTRY(tField), "TEST");
+	}
+
+	static void activate_txtField(GtkWidget *txtField){
+		gtk_editable_set_editable(GTK_EDITABLE(txtField), TRUE);
+		gtk_widget_set_can_focus(GTK_WIDGET(txtField), TRUE);
+
+		const GdkColor WHITE = {0, 65535, 65535, 65535};
+		gtk_widget_modify_base(txtField, GTK_STATE_NORMAL, &WHITE);
 	}
 
 
