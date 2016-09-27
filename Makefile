@@ -1,10 +1,11 @@
 CC=g++ # TODO if g++ not available compile with gcc (little adjustment)
-CFLAGS= -std=c++11 -Wall
+CFLAGS=-std=c++11 -Wall -Wextra
 LDFLAGS=
 pkg-config=`pkg-config --libs --cflags gtk+-2.0`
-SOURCES=gui.cpp
+SOURCES=0_view/gui.cpp main.cpp
+HEADERS=0_view/gui.h
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=AFaker.o
+EXECUTABLE=AFaker
 
 # $(EXECUTABLE): $(OBJECTS)
 # 	$(CC) $(CFLAGS) $(pkg-config) $(OBJECTS) -o $@
@@ -13,13 +14,13 @@ EXECUTABLE=AFaker.o
 # 	$(CC) $(CFLAGS) $(pkg-config) $< -o $@
 
 all:
-	$(CC) $(CFLAGS) $(pkg-config) $(SOURCES) -o $(OBJECTS)
+	$(CC) $(CFLAGS) $(pkg-config) $(SOURCES) -o $(EXECUTABLE)
 
-gui:
-	$(CC) $(CFLAGS) -o gui.o gui.cpp $(pkg-config)
+main:
+	$(CC) $(CFLAGS) -o main.o $(SOURCES) $(pkg-config)
 
 clean:
-	rm *.o
+	rm $(EXECUTABLE)
 
 
 
