@@ -21,7 +21,7 @@
 // #include <vector>
 #include "gui.h"
 
-using namespace std;
+//using namespace std;
 
 		
 void GUI::but_send(GtkWidget *widget, gpointer data){
@@ -39,7 +39,7 @@ void GUI::but_clicked(GtkWidget *widget, GtkWidget *txtField){
 }
 
 void GUI::chkbox_on(GtkWidget *widget){
-	cout << "on" << endl;
+	std::cout << "on" << std::endl;
 	//activate_txtField(widget);
 	/*
 	 * TODO:
@@ -49,7 +49,7 @@ void GUI::chkbox_on(GtkWidget *widget){
 }
 
 void GUI::chkbox_off(GtkWidget *widget){
-	cout << "off" << endl;
+	std::cout << "off" << std::endl;
 	//deactivate_txtField(widget);
 	/*
 	 * TODO:
@@ -174,7 +174,7 @@ void GUI::choose_mailList(GtkWidget *parent_window, gpointer data){
 	if(gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT){
 		char *filename;
 		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER (dialog));
-		cout << filename << endl;
+		std::cout << filename << std::endl;
 		// open_file (filename);
 		// g_free (filename);
 	}
@@ -282,7 +282,7 @@ GtkWidget* GUI::pack_label_txtField_checkbox(GtkWidget *label,
 	return hgrid_all;
 }
 
-GUI::grid_Line GUI::create_grid_packed(vector<string> labels){
+GUI::grid_Line GUI::create_grid_packed(std::vector<std::string> labels){
 	/*
 	 * We are going to create the widgets like this but dynamically.
 	 * The form names will be extracted and used here (of the website).
@@ -302,6 +302,9 @@ GUI::grid_Line GUI::create_grid_packed(vector<string> labels){
 		gtk_box_pack_start(GTK_BOX(form.hbox), form.gridLine, FALSE,
 				   FALSE, 0);
 	}
+
+	// We can get the form name like this
+	//std::cout << gtk_label_get_text(GTK_LABEL(form.label)) << endl;
 
 	return form;
 }

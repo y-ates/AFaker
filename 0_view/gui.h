@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-using namespace std;
+//using namespace std;
 
 class GUI{
  private:
@@ -42,7 +42,7 @@ class GUI{
 	static GtkWidget *pack_label_txtField_checkbox(GtkWidget *label,
 						       GtkWidget *txtField,
 						       GtkWidget *checkbox);
-	static grid_Line create_grid_packed(vector<string> labels);
+	static grid_Line create_grid_packed(std::vector<std::string> labels);
 };
 
 #endif
