@@ -29,7 +29,8 @@ int main(int argc, char *argv[]){
 			     W_TITLE);
 	gtk_window_set_default_size(GTK_WINDOW(main_window), W_HEIGHT, W_WIDTH);
 	gtk_window_set_position(GTK_WINDOW(main_window), GTK_WIN_POS_CENTER);
-	gtk_container_set_border_width(GTK_CONTAINER(main_window), W_BORDER_WIDTH);
+	gtk_container_set_border_width(GTK_CONTAINER(main_window),
+				       W_BORDER_WIDTH);
 	g_signal_connect(main_window, "destroy", G_CALLBACK(gtk_main_quit),
 			 NULL);
 
@@ -40,7 +41,7 @@ int main(int argc, char *argv[]){
 	GtkWidget *grid = gtk_vbox_new(FALSE, 0);
 	GtkWidget *grid_menubar = gtk_vbox_new(FALSE, 0);
 	GtkWidget *hbox2 = gtk_hbox_new(FALSE, 0);
-	GtkWidget *hbox1 = gtk_hbox_new(FALSE, 0);
+	//GtkWidget *hbox1 = gtk_hbox_new(FALSE, 0);
 	GtkWidget *hbox0 = gtk_hbox_new(FALSE, 0);
 	/*
 	 * TODO:
@@ -92,7 +93,10 @@ int main(int argc, char *argv[]){
 	 * How do we handle many forms? What about a maximum count of allowed
 	 * forms?
 	 */
+	// MENUBAR
 	gtk_box_pack_start(GTK_BOX(grid), grid_menubar, FALSE, FALSE, 0);
+
+	// URL_LABEL - URL_FIELD - SEND_BUTTON
 	gtk_box_pack_start(GTK_BOX(url_label_field_grid), url_label, FALSE, FALSE, 5);
 	gtk_box_pack_start(GTK_BOX(url_field_grid), url_field, FALSE, FALSE, 5);
 	gtk_box_pack_start(GTK_BOX(but_grid_send), but_send, FALSE, FALSE, 5);
@@ -100,13 +104,11 @@ int main(int argc, char *argv[]){
 	gtk_box_pack_start(GTK_BOX(hbox2), url_field_grid, FALSE, FALSE, 5);
 	gtk_box_pack_start(GTK_BOX(hbox2), but_grid_send, FALSE, FALSE, 5);
 	gtk_box_pack_start(GTK_BOX(grid), hbox2, FALSE, FALSE, 5);
-	
+
+	// ALL FORMS
 	gtk_box_pack_start(GTK_BOX(grid), hbox0, FALSE, FALSE, 0);
-	
-	//gtk_box_pack_start(GTK_BOX(hbox1), but_grid_send, FALSE, FALSE, 50);
-	gtk_box_pack_start(GTK_BOX(grid), hbox1, FALSE, FALSE, 5);
 
-
+	// MERGE ALL
 	gtk_container_add(GTK_CONTAINER(main_window), grid);
 	gtk_widget_show_all(main_window);
 

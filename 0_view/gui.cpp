@@ -288,7 +288,7 @@ GUI::grid_Line GUI::create_grid_packed(std::vector<std::string> labels){
 	 * The form names will be extracted and used here (of the website).
 	 */		
 	struct grid_Line form;
-		
+
 	int label_count = labels.size();
 
 	for(int i=0; i<label_count; i++){
