@@ -26,10 +26,10 @@ int main(int argc, char *argv[]){
 	main_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
 	gtk_window_set_title(GTK_WINDOW(main_window),
-			     "AFaker - Create fake accounts easily");
-	gtk_window_set_default_size(GTK_WINDOW(main_window), 800, 600);
+			     W_TITLE);
+	gtk_window_set_default_size(GTK_WINDOW(main_window), W_HEIGHT, W_WIDTH);
 	gtk_window_set_position(GTK_WINDOW(main_window), GTK_WIN_POS_CENTER);
-	gtk_container_set_border_width(GTK_CONTAINER(main_window), 2);
+	gtk_container_set_border_width(GTK_CONTAINER(main_window), W_BORDER_WIDTH);
 	g_signal_connect(main_window, "destroy", G_CALLBACK(gtk_main_quit),
 			 NULL);
 
@@ -39,6 +39,7 @@ int main(int argc, char *argv[]){
 	/* Grid */
 	GtkWidget *grid = gtk_vbox_new(FALSE, 0);
 	GtkWidget *grid_menubar = gtk_vbox_new(FALSE, 0);
+	GtkWidget *hbox2 = gtk_hbox_new(FALSE, 0);
 	GtkWidget *hbox1 = gtk_hbox_new(FALSE, 0);
 	GtkWidget *hbox0 = gtk_hbox_new(FALSE, 0);
 	/*
@@ -65,6 +66,15 @@ int main(int argc, char *argv[]){
 	GtkWidget *but_send = gui.create_button("Send");
 	g_signal_connect(but_send, "clicked", G_CALLBACK(gui.but_send), NULL);
 
+	GtkWidget *url_field = gui.create_txtField();
+	gtk_entry_set_text(GTK_ENTRY(url_field), "SET URL");
+	gtk_entry_set_max_length(GTK_ENTRY(url_field), 1000);
+	gtk_entry_set_width_chars(GTK_ENTRY(url_field), 50);
+	gtk_entry_set_alignment(GTK_ENTRY(url_field), 0.5f);
+	GtkWidget *url_label = gui.create_label("URL: ");
+	GtkWidget *url_label_field_grid = gtk_hbox_new(FALSE, 0);
+	GtkWidget *url_field_grid = gtk_vbox_new(FALSE, 0);
+
 	/* Table packing */
 	// GtkWidget *table = gtk_table_new(10, 10, TRUE);
 	// gtk_container_add(GTK_CONTAINER(main_window), table);
@@ -72,6 +82,9 @@ int main(int argc, char *argv[]){
 	// gtk_table_attach_defaults(GTK_TABLE(table), hbox0, 0, 3, 1, 3);
 	// gtk_table_attach_defaults(GTK_TABLE(table), but_send, 9, 10, 9, 10);
 
+	//gtk_grid_set_column_homogeneous(hbox0, True);
+	//std::cout << hbox0.seperator_height << std::endl;
+	
 	/*
 	 * TODO:
 	 * Packing can be done much easier. Use table for textfields, buttons.
@@ -80,10 +93,19 @@ int main(int argc, char *argv[]){
 	 * forms?
 	 */
 	gtk_box_pack_start(GTK_BOX(grid), grid_menubar, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(grid), hbox0, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(url_label_field_grid), url_label, FALSE, FALSE, 5);
+	gtk_box_pack_start(GTK_BOX(url_field_grid), url_field, FALSE, FALSE, 5);
 	gtk_box_pack_start(GTK_BOX(but_grid_send), but_send, FALSE, FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(hbox1), but_grid_send, FALSE, FALSE, 50);
+	gtk_box_pack_start(GTK_BOX(hbox2), url_label_field_grid, FALSE, FALSE, 5);
+	gtk_box_pack_start(GTK_BOX(hbox2), url_field_grid, FALSE, FALSE, 5);
+	gtk_box_pack_start(GTK_BOX(hbox2), but_grid_send, FALSE, FALSE, 5);
+	gtk_box_pack_start(GTK_BOX(grid), hbox2, FALSE, FALSE, 5);
+	
+	gtk_box_pack_start(GTK_BOX(grid), hbox0, FALSE, FALSE, 0);
+	
+	//gtk_box_pack_start(GTK_BOX(hbox1), but_grid_send, FALSE, FALSE, 50);
 	gtk_box_pack_start(GTK_BOX(grid), hbox1, FALSE, FALSE, 5);
+
 
 	gtk_container_add(GTK_CONTAINER(main_window), grid);
 	gtk_widget_show_all(main_window);

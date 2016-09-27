@@ -15,15 +15,9 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-// #include <gtk/gtk.h>
-// #include <iostream>
-// #include <string>
-// #include <vector>
 #include "gui.h"
 
-//using namespace std;
 
-		
 void GUI::but_send(GtkWidget *widget, gpointer data){
 	g_print("Sending...\r\n");
 
@@ -181,6 +175,12 @@ void GUI::choose_mailList(GtkWidget *parent_window, gpointer data){
 	gtk_widget_destroy(dialog);
 }
 
+void GUI::choose_nameList(GtkWidget *parent_window, gpointer data){
+	/*
+	 * TODO
+	 */
+}
+
 GtkWidget* GUI::create_txtField(){
 	/*
 	 * TODO:
@@ -308,3 +308,5 @@ GUI::grid_Line GUI::create_grid_packed(std::vector<std::string> labels){
 
 	return form;
 }
+
+
