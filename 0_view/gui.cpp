@@ -16,7 +16,7 @@
  ******************************************************************************/
 
 #include "gui.h"
-//
+
 
 void GUI::but_send(GtkWidget *widget, gpointer data){
 	g_print("Sending...\r\n");
