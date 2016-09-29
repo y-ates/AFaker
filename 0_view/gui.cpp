@@ -215,7 +215,7 @@ void GUI::activate_txtField(GtkWidget *txtField){
 }
 
 
-GtkWidget* GUI::create_checkbox(const char *label){
+GtkWidget* GUI::create_checkbox(const char* label){
 	/*
 	 * TODO:
 	 * We need to be able to address each textfield individually.
@@ -233,53 +233,46 @@ GtkWidget* GUI::create_checkbox(const char *label){
 }
 
 GtkWidget* GUI::create_label(const char *txt_label){
-	/*
-	 * TODO:
-	 * We need to be able to address each textfield individually.
-	 */
-
 	GtkWidget *label = gtk_label_new(txt_label);
 
 	gtk_label_set_text(GTK_LABEL(label), txt_label);
+	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 
 	return label;
 }
 
-GtkWidget* GUI::pack_label_txtField_checkbox(GtkWidget *label,
-					     GtkWidget *txtField,
-					     GtkWidget *checkbox){
-	/*
-	 * TODO:
-	 * Can we address the GtkWidgets contained in a grid
-	 * individually?
-	 */
 
-	GtkWidget *grid_label = gtk_hbox_new(FALSE, 0);
-	GtkWidget *grid_txtField = gtk_hbox_new(FALSE, 0);
-	GtkWidget *grid_checkbox = gtk_hbox_new(FALSE, 0);
-	GtkWidget *hgrid_all = gtk_hbox_new(FALSE, 0);
+GtkWidget* GUI::h_pack_three(GtkWidget *label, GtkWidget *txtField,
+			    GtkWidget *checkbox){
+	GtkWidget *hgrid = gtk_hbox_new(FALSE, 0);
 
-	/*
-	 * Every widget get its own grid.
-	 */
-	gtk_box_pack_start(GTK_BOX(grid_label), label, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(grid_txtField), txtField, FALSE,
+	// Put all GtkWidgets in one hbox
+	gtk_box_pack_start(GTK_BOX(hgrid), label, FALSE,
 			   FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(grid_checkbox), checkbox, FALSE,
-			   FALSE, 0);
-
-	/*
-	 * Put all grids together.
-	 */
-	gtk_box_pack_start(GTK_BOX(hgrid_all), grid_label, FALSE,
-			   FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hgrid_all), grid_txtField, FALSE,
+	gtk_box_pack_start(GTK_BOX(hgrid), txtField, FALSE,
 			   FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(hgrid_all), grid_checkbox, FALSE,
+	gtk_box_pack_start(GTK_BOX(hgrid), checkbox, FALSE,
 			   FALSE, 0);
 
 
-	return hgrid_all;
+	return hgrid;
+}
+
+GtkWidget* GUI::v_pack(std::vector<GtkWidget*> widgets, int size){
+	GtkWidget *vgrid = gtk_vbox_new(FALSE, 0);
+
+	if(!widgets.empty()){
+		if(size < MAX_FORMS){
+			for(int i=0; i<size; ++i){
+				gtk_box_pack_start(GTK_BOX(vgrid), widgets[i],
+						   FALSE, FALSE, 0);
+			}
+
+			return vgrid;
+		}
+	}
+	
+	return (GtkWidget*) NULL;
 }
 
 GUI::grid_Line GUI::create_grid_packed(std::vector<std::string> labels){
@@ -287,18 +280,16 @@ GUI::grid_Line GUI::create_grid_packed(std::vector<std::string> labels){
 	 * We are going to create the widgets like this but dynamically.
 	 * The form names will be extracted and used here (of the website).
 	 */		
+	int label_count = labels.size();
 	struct grid_Line form;
 
-	int label_count = labels.size();
-
-	for(int i=0; i<label_count; i++){
-		form.txtField= GUI::create_txtField();
+	for(int i=0; i<label_count; ++i){
+		form.txtField = GUI::create_txtField();
 		form.checkbox = GUI::create_checkbox("Edit");
 		form.label = GUI::create_label(labels[i].c_str());
 
-		form.gridLine = GUI::pack_label_txtField_checkbox(form.label,
-								  form.txtField,
-								  form.checkbox);
+		form.gridLine = GUI::h_pack_three(form.label, form.txtField,
+						  form.checkbox);
 		gtk_box_pack_start(GTK_BOX(form.hbox), form.gridLine, FALSE,
 				   FALSE, 0);
 	}
@@ -308,5 +299,4 @@ GUI::grid_Line GUI::create_grid_packed(std::vector<std::string> labels){
 
 	return form;
 }
-
 
