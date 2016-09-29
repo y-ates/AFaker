@@ -2,8 +2,8 @@ CC=g++ # TODO if g++ not available compile with gcc (little adjustment)
 CFLAGS=-std=c++11 -Wall -Wextra
 LDFLAGS=
 pkg-config=`pkg-config --libs gtk+-2.0 --cflags gtk+-2.0`
-SOURCES=0_view/gui.cpp main.cpp
-HEADERS=0_view/gui.h
+SOURCES=0_view/gui.cpp 0_view/form.cpp main.cpp
+HEADERS=0_view/gui.h 0_view/form.h
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=AFaker
 

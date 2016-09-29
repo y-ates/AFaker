@@ -16,6 +16,7 @@
  ******************************************************************************/
 
 #include "gui.h"
+#include "form.h"
 
 
 void GUI::but_send(GtkWidget *widget, gpointer data){
@@ -181,17 +182,6 @@ void GUI::choose_nameList(GtkWidget *parent_window, gpointer data){
 	 */
 }
 
-GtkWidget* GUI::create_txtField(){
-	/*
-	 * TODO:
-	 * Get content of textfield if "edit"-checkbox is checked.
-	 * We need to be able to address each textfield individually.
-	 */
-	GtkWidget *tField = gtk_entry_new();
-
-	return tField;
-}
-
 const gchar* GUI::getContent_txtField(GtkWidget *txtField){
 	return gtk_entry_get_text(GTK_ENTRY(txtField));
 }
@@ -214,34 +204,6 @@ void GUI::activate_txtField(GtkWidget *txtField){
 	gtk_widget_modify_base(txtField, GTK_STATE_NORMAL, &WHITE);
 }
 
-
-GtkWidget* GUI::create_checkbox(const char* label){
-	/*
-	 * TODO:
-	 * We need to be able to address each textfield individually.
-	 */
-
-	GtkWidget *cbox;
-
-	cbox = gtk_check_button_new_with_label(label);
-
-	g_signal_connect(GTK_WIDGET(cbox), "toggled",
-			 G_CALLBACK(GUI::chkbox_listen), cbox);
-
-
-	return cbox;
-}
-
-GtkWidget* GUI::create_label(const char *txt_label){
-	GtkWidget *label = gtk_label_new(txt_label);
-
-	gtk_label_set_text(GTK_LABEL(label), txt_label);
-	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
-
-	return label;
-}
-
-
 GtkWidget* GUI::h_pack_three(GtkWidget *label, GtkWidget *txtField,
 			    GtkWidget *checkbox){
 	GtkWidget *hgrid = gtk_hbox_new(FALSE, 0);
@@ -260,7 +222,7 @@ GtkWidget* GUI::h_pack_three(GtkWidget *label, GtkWidget *txtField,
 
 GtkWidget* GUI::v_pack(std::vector<GtkWidget*> widgets, int size){
 	GtkWidget *vgrid = gtk_vbox_new(FALSE, 0);
-
+	
 	if(!widgets.empty()){
 		if(size < MAX_FORMS){
 			for(int i=0; i<size; ++i){
@@ -275,28 +237,71 @@ GtkWidget* GUI::v_pack(std::vector<GtkWidget*> widgets, int size){
 	return (GtkWidget*) NULL;
 }
 
-GUI::grid_Line GUI::create_grid_packed(std::vector<std::string> labels){
+GtkWidget* GUI::create_txtField(){
+	/*
+	 * TODO:
+	 * Get content of textfield if "edit"-checkbox is checked.
+	 * We need to be able to address each textfield individually.
+	 */
+	GtkWidget *tField = gtk_entry_new();
+
+	return tField;
+}
+
+GtkWidget* GUI::create_checkbox(const char *label){
+	/*
+	 * TODO:
+	 * We need to be able to address each textfield individually.
+	 */
+
+	GtkWidget *cbox;
+
+	cbox = gtk_check_button_new_with_label(label);
+
+	g_signal_connect(GTK_WIDGET(cbox), "toggled",
+			 G_CALLBACK(GUI::chkbox_listen), cbox);
+
+
+	return cbox;
+}
+
+GtkWidget* GUI::create_label(const char *txt_label){
+	/*
+	 * TODO:
+	 * We need to be able to address each textfield individually.
+	 */
+
+	GtkWidget *label = gtk_label_new(txt_label);
+
+	gtk_label_set_text(GTK_LABEL(label), txt_label);
+
+	return label;
+}
+
+std::vector<Form> GUI::create_grid_packed(std::vector<std::string> labels){
 	/*
 	 * We are going to create the widgets like this but dynamically.
 	 * The form names will be extracted and used here (of the website).
 	 */		
 	int label_count = labels.size();
-	struct grid_Line form;
+	std::vector<Form> forms(label_count);
+	//struct grid_Line form;
 
 	for(int i=0; i<label_count; ++i){
-		form.txtField = GUI::create_txtField();
-		form.checkbox = GUI::create_checkbox("Edit");
-		form.label = GUI::create_label(labels[i].c_str());
+		forms[i].set_txtField(forms[i].create_txtField());
+		forms[i].set_checkbox(forms[i].create_checkbox("Edit"));
+		forms[i].set_label(forms[i].create_label(labels[i].c_str()));
 
-		form.gridLine = GUI::h_pack_three(form.label, form.txtField,
-						  form.checkbox);
-		gtk_box_pack_start(GTK_BOX(form.hbox), form.gridLine, FALSE,
-				   FALSE, 0);
+		forms[i].set_vbox(h_pack_three(forms[i].get_label(),
+					       forms[i].get_txtField(),
+					       forms[i].get_checkbox()));
+		gtk_box_pack_start(GTK_BOX(forms[i].get_hbox()), forms[i].get_vbox(),
+				   FALSE, FALSE, 0);
 	}
 
 	// We can get the form name like this
 	//std::cout << gtk_label_get_text(GTK_LABEL(form.label)) << endl;
 
-	return form;
+	return forms;
 }
 

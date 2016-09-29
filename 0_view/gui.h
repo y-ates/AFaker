@@ -22,6 +22,7 @@
 #include <iostream>
 #include <cstring>
 #include <vector>
+#include "form.h"
 
 #define W_TITLE "AFaker - Create fake accounts easily"
 #define W_HEIGHT 800
@@ -65,7 +66,7 @@ class GUI{
 	static GtkWidget *h_pack_three(GtkWidget *label, GtkWidget *txtField,
 				       GtkWidget *checkbox);
 	static GtkWidget* v_pack(std::vector<GtkWidget*> widgets, int size);
-	static grid_Line create_grid_packed(std::vector<std::string> labels);
+	static std::vector<Form> create_grid_packed(std::vector<std::string> labels);
 };
 
 #endif

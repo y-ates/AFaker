@@ -43,15 +43,15 @@ int main(int argc, char *argv[]){
 	GtkWidget *grid_menubar = gtk_vbox_new(FALSE, 0);
 	GtkWidget *hbox2 = gtk_hbox_new(FALSE, 0);
 	//GtkWidget *hbox1 = gtk_hbox_new(FALSE, 0);
-	GtkWidget *hbox0 = gtk_hbox_new(FALSE, 0);
-	/*
-	 * TODO:
-	 * Working with structs and thus being able to individually address the
-	 * single grids and its elements will solve many problems. 
-	 */
-	struct GUI::grid_Line form;
+	GtkWidget *hbox0 = gtk_vbox_new(FALSE, 0);
+	
+	std::vector<Form> form;
 	form = gui.create_grid_packed({"Name", "E-Mail", "Phone", "test", "a", "b", "c", "d", "e", "f", "g"});
-	hbox0 = form.hbox;
+
+	for(unsigned int i=0; i<form.size(); ++i){
+		gtk_box_pack_start(GTK_BOX(hbox0), form[i].get_hbox(), FALSE, FALSE, 0);
+	}
+	//hbox0 = form[1].get_hbox();
 
 	gui.create_menubar(grid_menubar, main_window);
 
