@@ -20,7 +20,7 @@
 int main(int argc, char *argv[]){
 	/* Init main window */
 	GUI gui;
-	GtkWidget *main_window;
+	GtkWidget* main_window;
 	gtk_init(&argc, &argv);
 
 	main_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -39,11 +39,11 @@ int main(int argc, char *argv[]){
 	//gtk_widget_grab_focus(main_window);
 
 	/* Grid */
-	GtkWidget *grid = gtk_vbox_new(FALSE, 0);
-	GtkWidget *grid_menubar = gtk_vbox_new(FALSE, 0);
-	GtkWidget *hbox2 = gtk_hbox_new(FALSE, 0);
-	//GtkWidget *hbox1 = gtk_hbox_new(FALSE, 0);
-	GtkWidget *hbox0 = gtk_vbox_new(FALSE, 0);
+	GtkWidget* grid = gtk_vbox_new(FALSE, 0);
+	GtkWidget* grid_menubar = gtk_vbox_new(FALSE, 0);
+	GtkWidget* hbox2 = gtk_hbox_new(FALSE, 0);
+	//GtkWidget* hbox1 = gtk_hbox_new(FALSE, 0);
+	GtkWidget* hbox0 = gtk_vbox_new(FALSE, 0);
 	
 	std::vector<Form> form;
 	form = gui.create_grid_packed({"Name", "E-Mail", "Phone", "test", "a", "b", "c", "d", "e", "f", "g"});
@@ -73,6 +73,11 @@ int main(int argc, char *argv[]){
 
 	GtkWidget *seperator = gtk_hseparator_new();
 	//GtkWidget *scrollbar = gtk_vscrollbar_new(0);
+	//GtkWidget *scrollbar = gtk_scrolled_window_new(NULL, NULL);
+
+	GtkWidget* alignment = gtk_alignment_new(0.5, 0.5, 0, 0);
+
+
 	
 	// MENUBAR
 	gtk_box_pack_start(GTK_BOX(grid), grid_menubar, FALSE, FALSE, 0);
@@ -86,11 +91,12 @@ int main(int argc, char *argv[]){
 	gtk_box_pack_start(GTK_BOX(hbox2), but_grid_send, FALSE, FALSE, 5);
 	gtk_box_pack_start(GTK_BOX(grid), hbox2, FALSE, FALSE, 5);
 
-	//gtk_box_pack_start(GTK_BOX(grid), scrollbar, FALSE, FALSE, 5);
+	// Seperator
 	gtk_box_pack_start(GTK_BOX(grid), seperator, FALSE, FALSE, 5);
 
 	// ALL FORMS
-	gtk_box_pack_start(GTK_BOX(grid), hbox0, FALSE, FALSE, 0);
+	gtk_container_add(GTK_CONTAINER(alignment), hbox0);
+	gtk_box_pack_start(GTK_BOX(grid), alignment, FALSE, FALSE, 0);
 
 	// MERGE ALL
 	gtk_container_add(GTK_CONTAINER(main_window), grid);
