@@ -85,7 +85,8 @@ int main(int argc, char *argv[]){
 	GtkWidget *url_label_field_grid = gtk_hbox_new(FALSE, 0);
 	GtkWidget *url_field_grid = gtk_vbox_new(FALSE, 0);
 
-	GtkWidget *seperator = gtk_hseparator_new();
+	GtkWidget *seperator_h = gtk_hseparator_new();
+	GtkWidget *seperator_v = gtk_vseparator_new();
 	//GtkWidget *scrollbar = gtk_vscrollbar_new(0);
 	//GtkWidget *scrollbar = gtk_scrolled_window_new(NULL, NULL);
 
@@ -101,18 +102,23 @@ int main(int argc, char *argv[]){
 	gtk_box_pack_start(GTK_BOX(hbox2), url_label_field_grid, FALSE, FALSE, 5);
 	gtk_box_pack_start(GTK_BOX(hbox2), url_field_grid, FALSE, FALSE, 5);
 	gtk_box_pack_start(GTK_BOX(hbox2), but_grid_send, FALSE, FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(grid), hbox2, FALSE, FALSE, 5);
+	gtk_container_add(GTK_CONTAINER(alignment), hbox2);
+	gtk_box_pack_start(GTK_BOX(grid), alignment, FALSE, FALSE, 5);
 
 	// Seperator
-	gtk_box_pack_start(GTK_BOX(grid), seperator, FALSE, FALSE, 5);
+	gtk_box_pack_start(GTK_BOX(grid), seperator_h, FALSE, FALSE, 5);
 
 	// ALL FORMS
 	//gtk_container_add(GTK_CONTAINER(alignment), hbox0);
 	//gtk_box_pack_start(GTK_BOX(grid), alignment, FALSE, FALSE, 0);
 
-	gtk_box_pack_start(GTK_BOX(hbox3), hbox0, FALSE, FALSE, 0);
-	gtk_box_pack_end(GTK_BOX(hbox3), hbox1, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(grid), hbox3, FALSE, FALSE, 0);
+
+	//GtkWidget* alignment_right = gtk_alignment_new(0.5, 0.5, 0, 0);
+	//gtk_container_add(GTK_CONTAINER(alignment_right), hbox0);
+	gtk_box_pack_start(GTK_BOX(hbox3), hbox0, FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(hbox3), seperator_v, FALSE, FALSE, 25);
+	gtk_box_pack_end(GTK_BOX(hbox3), hbox1, FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(grid), hbox3, FALSE, FALSE, 10);
 
 	// MERGE ALL
 	gtk_container_add(GTK_CONTAINER(main_window), grid);
