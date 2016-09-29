@@ -27,8 +27,9 @@ int main(int argc, char *argv[]){
 
 	gtk_window_set_title(GTK_WINDOW(main_window),
 			     W_TITLE);
-	gtk_window_set_default_size(GTK_WINDOW(main_window), W_HEIGHT, W_WIDTH);
+	//gtk_window_set_default_size(GTK_WINDOW(main_window), W_HEIGHT, W_WIDTH);
 	gtk_window_set_position(GTK_WINDOW(main_window), GTK_WIN_POS_CENTER);
+	gtk_window_set_resizable(GTK_WINDOW(main_window), FALSE);
 	gtk_container_set_border_width(GTK_CONTAINER(main_window),
 				       W_BORDER_WIDTH);
 	g_signal_connect(main_window, "destroy", G_CALLBACK(gtk_main_quit),
@@ -49,17 +50,11 @@ int main(int argc, char *argv[]){
 	 * single grids and its elements will solve many problems. 
 	 */
 	struct GUI::grid_Line form;
-	form = gui.create_grid_packed({"Name", "E-Mail", "Phone", "test"});
+	form = gui.create_grid_packed({"Name", "E-Mail", "Phone", "test", "a", "b", "c", "d", "e", "f", "g"});
 	hbox0 = form.hbox;
 
 	gui.create_menubar(grid_menubar, main_window);
 
-	/*
-	 * I think we won't need individual buttons for every textfield later
-	 * on. A checkbox next to the textfield will suffice to control whether
-	 * the user wants to set the value automatically or manually.
-	 * A button "send" to actually submit the forms is needed.
-	 */
 	//GUI::deactivate_txtField(txt_name);
 
 
@@ -76,23 +71,9 @@ int main(int argc, char *argv[]){
 	GtkWidget *url_label_field_grid = gtk_hbox_new(FALSE, 0);
 	GtkWidget *url_field_grid = gtk_vbox_new(FALSE, 0);
 
-	/* Table packing */
-	// GtkWidget *table = gtk_table_new(10, 10, TRUE);
-	// gtk_container_add(GTK_CONTAINER(main_window), table);
-	// gtk_table_attach_defaults(GTK_TABLE(table), grid_menubar, 0, 10, 0, 1);
-	// gtk_table_attach_defaults(GTK_TABLE(table), hbox0, 0, 3, 1, 3);
-	// gtk_table_attach_defaults(GTK_TABLE(table), but_send, 9, 10, 9, 10);
-
-	//gtk_grid_set_column_homogeneous(hbox0, True);
-	//std::cout << hbox0.seperator_height << std::endl;
+	GtkWidget *seperator = gtk_hseparator_new();
+	//GtkWidget *scrollbar = gtk_vscrollbar_new(0);
 	
-	/*
-	 * TODO:
-	 * Packing can be done much easier. Use table for textfields, buttons.
-	 * Do we want a fixed window size?
-	 * How do we handle many forms? What about a maximum count of allowed
-	 * forms?
-	 */
 	// MENUBAR
 	gtk_box_pack_start(GTK_BOX(grid), grid_menubar, FALSE, FALSE, 0);
 
@@ -104,6 +85,9 @@ int main(int argc, char *argv[]){
 	gtk_box_pack_start(GTK_BOX(hbox2), url_field_grid, FALSE, FALSE, 5);
 	gtk_box_pack_start(GTK_BOX(hbox2), but_grid_send, FALSE, FALSE, 5);
 	gtk_box_pack_start(GTK_BOX(grid), hbox2, FALSE, FALSE, 5);
+
+	//gtk_box_pack_start(GTK_BOX(grid), scrollbar, FALSE, FALSE, 5);
+	gtk_box_pack_start(GTK_BOX(grid), seperator, FALSE, FALSE, 5);
 
 	// ALL FORMS
 	gtk_box_pack_start(GTK_BOX(grid), hbox0, FALSE, FALSE, 0);
