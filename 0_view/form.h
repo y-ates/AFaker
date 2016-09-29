@@ -19,7 +19,7 @@
 #define _FORM_H
 
 #include <gtk/gtk.h>
-
+#include <iostream>
 
 class Form{
  private:
@@ -47,6 +47,9 @@ class Form{
 	 void set_checkbox(GtkWidget* checkbox_widget);
 	 void set_hbox(GtkWidget* hbox_widget);
 	 void set_vbox(GtkWidget* vbox_widget);
+	 void chkbox_on(GtkWidget *widget);
+	 void chkbox_off(GtkWidget *widget);
+	 void chkbox_listen(GtkWidget *cbox);
 	 
 	 GtkWidget* create_checkbox(const char* label);
 	 GtkWidget* create_label(const char* txt_label);

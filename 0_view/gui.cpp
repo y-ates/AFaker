@@ -33,33 +33,6 @@ void GUI::but_clicked(GtkWidget *widget, GtkWidget *txtField){
 	//g_print(getContent_txtField(GTK_WIDGET(txtField)));
 }
 
-void GUI::chkbox_on(GtkWidget *widget){
-	std::cout << "on" << std::endl;
-	//activate_txtField(widget);
-	/*
-	 * TODO:
-	 * User wants to edit form field manually. Set textfield
-	 * editable and get value when "send" button is clicked
-	 */
-}
-
-void GUI::chkbox_off(GtkWidget *widget){
-	std::cout << "off" << std::endl;
-	//deactivate_txtField(widget);
-	/*
-	 * TODO:
-	 * Checkbox is off per default. That means that the form is
-	 * filled automatically with dynamically generated data.
-	 */
-}
-
-void GUI::chkbox_listen(GtkWidget *cbox){
-	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cbox)))
-		chkbox_on(cbox);
-	else
-		chkbox_off(cbox);
-}
-
 void GUI::create_helpWindow_about(){
 	GtkWidget *helpWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(helpWindow), "About");
@@ -258,8 +231,8 @@ GtkWidget* GUI::create_checkbox(const char *label){
 
 	cbox = gtk_check_button_new_with_label(label);
 
-	g_signal_connect(GTK_WIDGET(cbox), "toggled",
-			 G_CALLBACK(GUI::chkbox_listen), cbox);
+	//g_signal_connect(GTK_WIDGET(cbox), "toggled",
+	//		 G_CALLBACK(GUI::chkbox_listen), cbox);
 
 
 	return cbox;
@@ -305,3 +278,29 @@ std::vector<Form> GUI::create_grid_packed(std::vector<std::string> labels){
 	return forms;
 }
 
+// void GUI::chkbox_on(GtkWidget *widget){
+// 	std::cout << "on" << std::endl;
+// 	//activate_txtField(widget);
+// 	/*
+// 	 * TODO:
+// 	 * User wants to edit form field manually. Set textfield
+// 	 * editable and get value when "send" button is clicked
+// 	 */
+// }
+
+// void GUI::chkbox_off(GtkWidget *widget){
+// 	std::cout << "off" << std::endl;
+// 	//deactivate_txtField(widget);
+// 	/*
+// 	 * TODO:
+// 	 * Checkbox is off per default. That means that the form is
+// 	 * filled automatically with dynamically generated data.
+// 	 */
+// }
+
+// void GUI::chkbox_listen(GtkWidget *cbox){
+// 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cbox)))
+// 		chkbox_on(cbox);
+// 	else
+// 		chkbox_off(cbox);
+// }

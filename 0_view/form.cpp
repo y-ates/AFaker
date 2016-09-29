@@ -85,8 +85,8 @@ GtkWidget* Form::create_checkbox(const char* label){
 
 	cbox = gtk_check_button_new_with_label(label);
 
-	// g_signal_connect(GTK_WIDGET(cbox), "toggled",
-	// 		 G_CALLBACK(GUI::chkbox_listen), cbox);
+	//g_signal_connect(GTK_WIDGET(cbox), "toggled",
+	//		 G_CALLBACK(Form::chkbox_listen), cbox);
 
 	return cbox;
 }
@@ -104,4 +104,31 @@ GtkWidget* Form::create_txtField(){
 	GtkWidget *tField = gtk_entry_new();
 
 	return tField;
+}
+
+void Form::chkbox_on(GtkWidget *widget){
+	std::cout << "on" << std::endl;
+	//activate_txtField(widget);
+	/*
+	 * TODO:
+	 * User wants to edit form field manually. Set textfield
+	 * editable and get value when "send" button is clicked
+	 */
+}
+
+void Form::chkbox_off(GtkWidget *widget){
+	std::cout << "off" << std::endl;
+	//deactivate_txtField(widget);
+	/*
+	 * TODO:
+	 * Checkbox is off per default. That means that the form is
+	 * filled automatically with dynamically generated data.
+	 */
+}
+
+void Form::chkbox_listen(GtkWidget *cbox){
+	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cbox)))
+		chkbox_on(cbox);
+	else
+		chkbox_off(cbox);
 }
