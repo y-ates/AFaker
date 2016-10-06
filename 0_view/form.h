@@ -44,6 +44,7 @@ class Form{
 	GtkWidget* get_checkbox();
 	void set_label(GtkWidget* label_widget);
 	void set_txtField(GtkWidget* txtField_widget);
+	void set_txtField_content(const char* content);
 	void set_checkbox(GtkWidget* checkbox_widget);
 	void set_hbox(GtkWidget* hbox_widget);
 	void set_vbox(GtkWidget* vbox_widget);

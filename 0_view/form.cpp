@@ -19,17 +19,17 @@
 
 
 Form::Form(){
-	// const char* label_name = "test_label";
+	const char* label_name = "test_label";
 	
-	// label = create_label(label_name);
-	// txtField = create_txtField();
-	// checkbox = create_checkbox(label_name);
+	label = create_label(label_name);
+	txtField = create_txtField();
+	checkbox = create_checkbox(label_name);
 }
 
 Form::Form(const char *label_name){
-	// label = create_label(label_name);
-	// txtField = create_txtField();
-	// checkbox = create_checkbox(label_name);
+	label = create_label(label_name);
+	txtField = create_txtField();
+	checkbox = create_checkbox(label_name);
 }
 
 GtkWidget* Form::get_hbox(){
@@ -53,28 +53,21 @@ GtkWidget* Form::get_checkbox(){
 }
 
 void Form::set_label(GtkWidget* label_widget){
-	/*
-	 * TODO:
-	 * Validate label
-	 */
-	//gtk_label_set_text(GTK_LABEL(label), label_text);
 	label = label_widget;
 }
 
 void Form::set_txtField(GtkWidget* txtField_widget){
-	/*
-	 * TODO:
-	 * Validate text
-	 */
-	//gtk_entry_set_text(GTK_ENTRY(txtField), text);
 	txtField = txtField_widget;
 }
 
+void Form::set_txtField_content(const char* content){
+	if(content[0] != 0)
+		gtk_entry_set_text(GTK_ENTRY(txtField), content);
+	else
+		gtk_entry_set_text(GTK_ENTRY(txtField), "None");
+}
+
 void Form::set_checkbox(GtkWidget* checkbox_widget){
-	/*
-	 * TODO:
-	 * Validate text
-	 */
 	checkbox = checkbox_widget;
 }
 
