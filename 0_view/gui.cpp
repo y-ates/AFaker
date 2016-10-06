@@ -24,6 +24,9 @@ void GUI::but_send_listen(GtkWidget* widget, std::vector<Form>& forms){
 
 	for(int i=0; i<forms.size(); ++i){
 		deactivate_txtField(forms[i].get_txtField());
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(forms[i].get_checkbox()),
+					     FALSE);
+
 		std::cout << i << ": "
 			  << gtk_entry_get_text(GTK_ENTRY(forms[i].get_txtField()))
 			  << std::endl;
@@ -126,6 +129,8 @@ GtkWidget* GUI::create_menubar(GtkWidget* grid_menubar, GtkWidget* main_window){
 			 G_CALLBACK(gtk_main_quit), NULL);
 	g_signal_connect(G_OBJECT(menu_file_mailList), "activate",
 			 G_CALLBACK(choose_mailList), main_window);
+	g_signal_connect(G_OBJECT(menu_file_nameList), "activate",
+			 G_CALLBACK(choose_nameList), main_window);
 	g_signal_connect(G_OBJECT(menu_help_about), "activate",
 			 G_CALLBACK(GUI::create_helpWindow_about),
 			 NULL);
@@ -151,10 +156,22 @@ void GUI::choose_mailList(GtkWidget* widget, GtkWidget* parent_window){
 	gtk_widget_destroy(dialog);
 }
 
-void GUI::choose_nameList(GtkWidget* parent_window, gpointer data){
-	/*
-	 * TODO
-	 */
+void GUI::choose_nameList(GtkWidget* widget, GtkWidget* parent_window){
+	GtkWidget* dialog;
+	dialog = gtk_file_chooser_dialog_new("Open File",
+					     GTK_WINDOW(parent_window),
+					     GTK_FILE_CHOOSER_ACTION_OPEN,
+					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					     GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+					     NULL);
+	if(gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT){
+		char* filename;
+		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER (dialog));
+		std::cout << filename << std::endl;
+		// open_file (filename);
+		// g_free (filename);
+	}
+	gtk_widget_destroy(dialog);
 }
 
 const gchar* GUI::getContent_txtField(GtkWidget* txtField){
@@ -298,13 +315,12 @@ void GUI::start(int argc, char** argv){
 	}
 
 	std::vector<Form> all_form;
-	all_form.reserve( form.size() + form1.size() ); // preallocate memory
-	all_form.insert( all_form.end(), form.begin(), form.end() );
-	all_form.insert( all_form.end(), form1.begin(), form1.end() );
+	all_form.reserve(form.size() + form1.size()); // preallocate memory
+	all_form.insert(all_form.end(), form.begin(), form.end());
+	all_form.insert(all_form.end(), form1.begin(), form1.end());
 
 	create_menubar(grid_menubar, main_window);
 
-	//std::cout << gtk_entry_get_text(GTK_ENTRY(form[0].get_txtField())) << std::endl;
 	gtk_entry_set_text(GTK_ENTRY(form[0].get_txtField()), "bb");
 	
 	GtkWidget* but_grid_send = gtk_vbox_new(FALSE, 0);

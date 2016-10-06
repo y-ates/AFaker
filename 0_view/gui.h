@@ -45,7 +45,7 @@ class GUI{
 	static void chkbox_off(GtkWidget* widget);
 	static void chkbox_listen(GtkWidget* cbox, GtkWidget* txtField);
 	static void choose_mailList(GtkWidget* widget, GtkWidget* parent_window);
-	static void choose_nameList(GtkWidget* parent_window, gpointer data);
+	static void choose_nameList(GtkWidget* widget, GtkWidget* parent_window);
 	static void create_helpWindow_about();
 	static GtkWidget* create_button(const char* label);
 	static GtkWidget* create_menubar(GtkWidget* grid_menubar,
