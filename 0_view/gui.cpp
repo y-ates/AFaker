@@ -19,9 +19,17 @@
 #include "form.h"
 
 
-void GUI::but_send(GtkWidget* widget, gpointer data){
+//void GUI::but_send_listen(){
+//void GUI::but_send_listen(std::vector<Form> left, std::vector<Form> right){
+void GUI::but_send_listen(GtkWidget* widget, std::vector<Form>& forms){
 	g_print("Sending...\r\n");
 
+	for(int i=0; i<forms.size(); ++i){
+		deactivate_txtField(forms[i].get_txtField());
+		std::cout << i << ": " << gtk_entry_get_text(GTK_ENTRY(forms[i].get_txtField()))
+			  << std::endl;
+	}
+	
 	/*
 	 * TODO:
 	 * Get value of all forms and call send function.
@@ -314,28 +322,31 @@ void GUI::start(int argc, char** argv){
 				   FALSE, 0);
 	}
 
-	//hbox0 = form[1].get_hbox();
+	std::vector<Form> all_form;
+	all_form.reserve( form.size() + form1.size() ); // preallocate memory
+	all_form.insert( all_form.end(), form.begin(), form.end() );
+	all_form.insert( all_form.end(), form1.begin(), form1.end() );
 
 	create_menubar(grid_menubar, main_window);
 
-	//GUI::deactivate_txtField(txt_name);
+	//std::cout << gtk_entry_get_text(GTK_ENTRY(form[0].get_txtField())) << std::endl;
+	gtk_entry_set_text(GTK_ENTRY(form[0].get_txtField()), "bb");
+	
+	GtkWidget* but_grid_send = gtk_vbox_new(FALSE, 0);
+	GtkWidget* but_send = create_button("Send");
+	g_signal_connect(but_send, "clicked", G_CALLBACK(but_send_listen), &all_form);
 
-
-	GtkWidget *but_grid_send = gtk_vbox_new(FALSE, 0);
-	GtkWidget *but_send = create_button("Send");
-	g_signal_connect(but_send, "clicked", G_CALLBACK(but_send), NULL);
-
-	GtkWidget *url_field = create_txtField();
+	GtkWidget* url_field = create_txtField();
 	gtk_entry_set_text(GTK_ENTRY(url_field), "SET URL");
 	gtk_entry_set_max_length(GTK_ENTRY(url_field), 1000);
 	gtk_entry_set_width_chars(GTK_ENTRY(url_field), 50);
 	gtk_entry_set_alignment(GTK_ENTRY(url_field), 0.5f);
-	GtkWidget *url_label = create_label("URL: ");
-	GtkWidget *url_label_field_grid = gtk_hbox_new(FALSE, 0);
-	GtkWidget *url_field_grid = gtk_vbox_new(FALSE, 0);
+	GtkWidget* url_label = create_label("URL: ");
+	GtkWidget* url_label_field_grid = gtk_hbox_new(FALSE, 0);
+	GtkWidget* url_field_grid = gtk_vbox_new(FALSE, 0);
 
-	GtkWidget *seperator_h = gtk_hseparator_new();
-	GtkWidget *seperator_v = gtk_vseparator_new();
+	GtkWidget* seperator_h = gtk_hseparator_new();
+	GtkWidget* seperator_v = gtk_vseparator_new();
 	//GtkWidget *scrollbar = gtk_vscrollbar_new(0);
 	//GtkWidget *scrollbar = gtk_scrolled_window_new(NULL, NULL);
 
