@@ -136,7 +136,7 @@ void Form::chkbox_off(){
 	 */
 }
 
-void Form::chkbox_listen(GtkWidget *cbox){
+void Form::chkbox_listen(GtkWidget* cbox){
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cbox)))
 		chkbox_on();
 	else

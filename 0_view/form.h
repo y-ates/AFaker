@@ -49,7 +49,7 @@ class Form{
 	void set_vbox(GtkWidget* vbox_widget);
         void chkbox_on();
 	void chkbox_off();
-	void chkbox_listen(GtkWidget *cbox);
+	void chkbox_listen(GtkWidget* cbox);
 	void activate_txtField();
 	void deactivate_txtField();
  
