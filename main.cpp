@@ -49,7 +49,8 @@ int main(int argc, char *argv[]){
 	GtkWidget* hbox3 = gtk_hbox_new(FALSE, 0);
 	
 	std::vector<Form> form;
-	form = gui.create_grid_packed({"Name", "E-Mail", "Phone", "test", "a", "b", "c", "d", "e", "f", "g"});
+	form = gui.create_grid_packed({"Name", "E-Mail", "Phone", "test", "a",
+				"b", "c", "d", "e", "f", "g"});
 
 	std::vector<Form> form1;
 	form1 = gui.create_grid_packed({"test1", "test1", "test1", "test1",
@@ -58,11 +59,13 @@ int main(int argc, char *argv[]){
 
 
 	for(unsigned int i=0; i<form.size(); ++i){
-		gtk_box_pack_start(GTK_BOX(hbox0), form[i].get_hbox(), FALSE, FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(hbox0), form[i].get_hbox(), FALSE,
+				   FALSE, 0);
 	}
 
 	for(unsigned int i=0; i<form1.size(); ++i){
-		gtk_box_pack_start(GTK_BOX(hbox1), form1[i].get_hbox(), FALSE, FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(hbox1), form1[i].get_hbox(), FALSE,
+				   FALSE, 0);
 	}
 
 	//hbox0 = form[1].get_hbox();
@@ -96,10 +99,12 @@ int main(int argc, char *argv[]){
 	gtk_box_pack_start(GTK_BOX(grid), grid_menubar, FALSE, FALSE, 0);
 
 	// URL_LABEL - URL_FIELD - SEND_BUTTON
-	gtk_box_pack_start(GTK_BOX(url_label_field_grid), url_label, FALSE, FALSE, 5);
+	gtk_box_pack_start(GTK_BOX(url_label_field_grid), url_label, FALSE,
+			   FALSE, 5);
 	gtk_box_pack_start(GTK_BOX(url_field_grid), url_field, FALSE, FALSE, 5);
 	gtk_box_pack_start(GTK_BOX(but_grid_send), but_send, FALSE, FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(hbox2), url_label_field_grid, FALSE, FALSE, 5);
+	gtk_box_pack_start(GTK_BOX(hbox2), url_label_field_grid, FALSE, FALSE,
+			   5);
 	gtk_box_pack_start(GTK_BOX(hbox2), url_field_grid, FALSE, FALSE, 5);
 	gtk_box_pack_start(GTK_BOX(hbox2), but_grid_send, FALSE, FALSE, 5);
 	gtk_container_add(GTK_CONTAINER(alignment), hbox2);

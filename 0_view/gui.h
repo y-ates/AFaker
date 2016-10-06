@@ -37,14 +37,6 @@ class GUI{
  public:
 	GUI(){
 	}
-
-	struct grid_Line {
-		GtkWidget *hbox = gtk_vbox_new(FALSE, 5);
-		GtkWidget *gridLine = gtk_vbox_new(FALSE, 0);
-		GtkWidget *label;
-		GtkWidget *txtField;
-		GtkWidget *checkbox;
-	};
 	
 	static void but_send(GtkWidget *widget, gpointer data);
 	static void but_clicked(GtkWidget *widget, GtkWidget *txtField);
@@ -61,8 +53,8 @@ class GUI{
 	static GtkWidget *create_label(const char *txt_label);
 	static GtkWidget *create_txtField();
 	static const gchar *getContent_txtField(GtkWidget *txtField);
-	static void deactivate_txtField(GtkWidget *txtField);
-	static void activate_txtField(GtkWidget *txtField);
+	//static void deactivate_txtField(GtkWidget *txtField);
+	//static void activate_txtField(GtkWidget *txtField);
 	static GtkWidget *h_pack_three(GtkWidget *label, GtkWidget *txtField,
 				       GtkWidget *checkbox);
 	static GtkWidget* v_pack(std::vector<GtkWidget*> widgets, int size);

@@ -19,11 +19,17 @@
 
 
 Form::Form(){
+	// const char* label_name = "test_label";
 	
+	// label = create_label(label_name);
+	// txtField = create_txtField();
+	// checkbox = create_checkbox(label_name);
 }
 
-Form::Form(const char *label){
-	
+Form::Form(const char *label_name){
+	// label = create_label(label_name);
+	// txtField = create_txtField();
+	// checkbox = create_checkbox(label_name);
 }
 
 GtkWidget* Form::get_hbox(){
@@ -84,10 +90,14 @@ GtkWidget* Form::create_checkbox(const char* label){
 	GtkWidget *cbox;
 
 	cbox = gtk_check_button_new_with_label(label);
+	checkbox = cbox;
 
+	/*
+	 * Callback function has to be static. Some problems here. FixIt.
+	 */
 	//g_signal_connect(GTK_WIDGET(cbox), "toggled",
-	//		 G_CALLBACK(Form::chkbox_listen), cbox);
-
+	//		 G_CALLBACK(chkbox_listen), cbox);
+	
 	return cbox;
 }
 
@@ -106,9 +116,9 @@ GtkWidget* Form::create_txtField(){
 	return tField;
 }
 
-void Form::chkbox_on(GtkWidget *widget){
-	std::cout << "on" << std::endl;
-	//activate_txtField(widget);
+void Form::chkbox_on(){
+	//std::cout << "on" << std::endl;
+	activate_txtField();
 	/*
 	 * TODO:
 	 * User wants to edit form field manually. Set textfield
@@ -116,9 +126,9 @@ void Form::chkbox_on(GtkWidget *widget){
 	 */
 }
 
-void Form::chkbox_off(GtkWidget *widget){
-	std::cout << "off" << std::endl;
-	//deactivate_txtField(widget);
+void Form::chkbox_off(){
+	//std::cout << "off" << std::endl;
+	deactivate_txtField();
 	/*
 	 * TODO:
 	 * Checkbox is off per default. That means that the form is
@@ -128,7 +138,25 @@ void Form::chkbox_off(GtkWidget *widget){
 
 void Form::chkbox_listen(GtkWidget *cbox){
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cbox)))
-		chkbox_on(cbox);
+		chkbox_on();
 	else
-		chkbox_off(cbox);
+		chkbox_off();
+}
+
+void Form::deactivate_txtField(){
+	gtk_editable_set_editable(GTK_EDITABLE(txtField), FALSE);
+	gtk_widget_set_can_focus(GTK_WIDGET(txtField), FALSE);
+
+	const GdkColor GREY = {0, 48000, 48000, 48000};
+	gtk_widget_modify_base(txtField, GTK_STATE_NORMAL, &GREY);
+
+	//gtk_entry_set_text(GTK_ENTRY(tField), "TEST");
+}
+
+void Form::activate_txtField(){
+	gtk_editable_set_editable(GTK_EDITABLE(txtField), TRUE);
+	gtk_widget_set_can_focus(GTK_WIDGET(txtField), TRUE);
+
+	const GdkColor WHITE = {0, 65535, 65535, 65535};
+	gtk_widget_modify_base(txtField, GTK_STATE_NORMAL, &WHITE);
 }

@@ -159,24 +159,6 @@ const gchar* GUI::getContent_txtField(GtkWidget *txtField){
 	return gtk_entry_get_text(GTK_ENTRY(txtField));
 }
 
-void GUI::deactivate_txtField(GtkWidget *txtField){
-	gtk_editable_set_editable(GTK_EDITABLE(txtField), FALSE);
-	gtk_widget_set_can_focus(GTK_WIDGET(txtField), FALSE);
-
-	const GdkColor GREY = {0, 48000, 48000, 48000};
-	gtk_widget_modify_base(txtField, GTK_STATE_NORMAL, &GREY);
-
-	//gtk_entry_set_text(GTK_ENTRY(tField), "TEST");
-}
-
-void GUI::activate_txtField(GtkWidget *txtField){
-	gtk_editable_set_editable(GTK_EDITABLE(txtField), TRUE);
-	gtk_widget_set_can_focus(GTK_WIDGET(txtField), TRUE);
-
-	const GdkColor WHITE = {0, 65535, 65535, 65535};
-	gtk_widget_modify_base(txtField, GTK_STATE_NORMAL, &WHITE);
-}
-
 GtkWidget* GUI::h_pack_three(GtkWidget *label, GtkWidget *txtField,
 			    GtkWidget *checkbox){
 	GtkWidget *hgrid = gtk_hbox_new(FALSE, 0);
