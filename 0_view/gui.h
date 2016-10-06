@@ -59,6 +59,7 @@ class GUI{
 				       GtkWidget* checkbox);
 	static GtkWidget* v_pack(std::vector<GtkWidget*> widgets, int size);
 	static std::vector<Form> create_grid_packed(std::vector<std::string> labels);
+	static void start(int argc, char** argv);
 };
 
 #endif
