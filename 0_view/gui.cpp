@@ -19,26 +19,20 @@
 #include "form.h"
 
 
-//void GUI::but_send_listen(){
-//void GUI::but_send_listen(std::vector<Form> left, std::vector<Form> right){
 void GUI::but_send_listen(GtkWidget* widget, std::vector<Form>& forms){
 	g_print("Sending...\r\n");
 
 	for(int i=0; i<forms.size(); ++i){
 		deactivate_txtField(forms[i].get_txtField());
-		std::cout << i << ": " << gtk_entry_get_text(GTK_ENTRY(forms[i].get_txtField()))
+		std::cout << i << ": "
+			  << gtk_entry_get_text(GTK_ENTRY(forms[i].get_txtField()))
 			  << std::endl;
 	}
 	
 	/*
 	 * TODO:
-	 * Get value of all forms and call send function.
+	 * Call send function.
 	 */
-}
-
-void GUI::but_clicked(GtkWidget* widget, GtkWidget* txtField){
-	g_print("Clicked\r\n");
-	//g_print(getContent_txtField(GTK_WIDGET(txtField)));
 }
 
 void GUI::create_helpWindow_about(){
@@ -139,7 +133,7 @@ GtkWidget* GUI::create_menubar(GtkWidget* grid_menubar, GtkWidget* main_window){
 	return menubar;
 }
 
-void GUI::choose_mailList(GtkWidget* parent_window, gpointer data){
+void GUI::choose_mailList(GtkWidget* widget, GtkWidget* parent_window){
 	GtkWidget* dialog;
 	dialog = gtk_file_chooser_dialog_new("Open File",
 					     GTK_WINDOW(parent_window),
@@ -201,22 +195,12 @@ GtkWidget* GUI::v_pack(std::vector<GtkWidget*> widgets, int size){
 }
 
 GtkWidget* GUI::create_txtField(){
-	/*
-	 * TODO:
-	 * Get content of textfield if "edit"-checkbox is checked.
-	 * We need to be able to address each textfield individually.
-	 */
 	GtkWidget* tField = gtk_entry_new();
 
 	return tField;
 }
 
 GtkWidget* GUI::create_checkbox(const char* label, GtkWidget* txtField){
-	/*
-	 * TODO:
-	 * We need to be able to address each textfield individually.
-	 */
-
 	GtkWidget* cbox;
 
 	cbox = gtk_check_button_new_with_label(label);
@@ -229,11 +213,6 @@ GtkWidget* GUI::create_checkbox(const char* label, GtkWidget* txtField){
 }
 
 GtkWidget* GUI::create_label(const char* txt_label){
-	/*
-	 * TODO:
-	 * We need to be able to address each textfield individually.
-	 */
-
 	GtkWidget* label = gtk_label_new(txt_label);
 
 	gtk_label_set_text(GTK_LABEL(label), txt_label);
@@ -242,10 +221,6 @@ GtkWidget* GUI::create_label(const char* txt_label){
 }
 
 std::vector<Form> GUI::create_grid_packed(std::vector<std::string> labels){
-	/*
-	 * We are going to create the widgets like this but dynamically.
-	 * The form names will be extracted and used here (of the website).
-	 */		
 	int label_count = labels.size();
 	std::vector<Form> forms(label_count);
 

@@ -39,14 +39,12 @@ class GUI{
 	GUI(){
 	}
 	
-	//static void but_send_listen(std::vector<Form> left, std::vector<Form> right);
-	//static void but_send_listen(GtkWidget* widget, GtkWidget* widget1);
 	static void but_send_listen(GtkWidget* widget, std::vector<Form>& forms);
 	static void but_clicked(GtkWidget* widget, GtkWidget *txtField);
 	static void chkbox_on(GtkWidget* widget);
 	static void chkbox_off(GtkWidget* widget);
 	static void chkbox_listen(GtkWidget* cbox, GtkWidget* txtField);
-	static void choose_mailList(GtkWidget* parent_window, gpointer data);
+	static void choose_mailList(GtkWidget* widget, GtkWidget* parent_window);
 	static void choose_nameList(GtkWidget* parent_window, gpointer data);
 	static void create_helpWindow_about();
 	static GtkWidget* create_button(const char* label);
