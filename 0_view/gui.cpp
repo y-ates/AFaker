@@ -22,7 +22,9 @@
 void GUI::but_send_listen(GtkWidget* widget, std::vector<Form>& forms){
 	g_print("Sending...\r\n");
 
-	for(int i=0; i<forms.size(); ++i){
+	int f_size = forms.size();
+	
+	for(int i=0; i<f_size; ++i){
 		deactivate_txtField(forms[i].get_txtField());
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(forms[i].get_checkbox()),
 					     FALSE);
@@ -304,12 +306,15 @@ void GUI::start(int argc, char** argv){
 				"test1", "test1", "test1"});
 
 
-	for(unsigned int i=0; i<form.size(); ++i){
+	int f_size = form.size();
+	int f_size1 = form1.size();
+	
+	for(int i=0; i<f_size; ++i){
 		gtk_box_pack_start(GTK_BOX(hbox0), form[i].get_hbox(), FALSE,
 				   FALSE, 0);
 	}
 
-	for(unsigned int i=0; i<form1.size(); ++i){
+	for(int i=0; i<f_size1; ++i){
 		gtk_box_pack_start(GTK_BOX(hbox1), form1[i].get_hbox(), FALSE,
 				   FALSE, 0);
 	}
@@ -421,6 +426,15 @@ void GUI::deactivate_txtField(GtkWidget* txtField){
 	gtk_widget_modify_base(txtField, GTK_STATE_NORMAL, &GREY);
 
 	//gtk_entry_set_text(GTK_ENTRY(tField), "TEST");
+
+	/*
+	 * Retrieve input of textfield if it is not empty.
+	 */
+	if(gtk_entry_get_text_length(GTK_ENTRY(txtField)) != 0){
+		std::cout << "Textfield had value of: "
+			  << getContent_txtField(txtField)
+			  << std::endl;
+	}
 }
 
 void GUI::activate_txtField(GtkWidget* txtField){
