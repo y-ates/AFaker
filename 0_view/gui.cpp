@@ -243,6 +243,16 @@ std::vector<Form> GUI::create_grid_packed(std::vector<std::string> labels){
 	int label_count = labels.size();
 	std::vector<Form> forms(label_count);
 
+	/*
+	 * TODO:
+	 * For some weird reason the URL textfield background remains black
+	 * while those adressed for forms are white with white font
+	 * colors. These appears to be a problem as the actual content of the
+	 * textfields won't be readable...
+	 * Why does the URL textfield remain with a black background color? Is
+	 * it set somewhere?
+	 */
+	
 	for(int i=0; i<label_count; ++i){
 		forms[i].set_txtField(forms[i].create_txtField());
 		// Signal handler works this way... :/
@@ -438,6 +448,15 @@ void GUI::deactivate_txtField(GtkWidget* txtField){
 }
 
 void GUI::activate_txtField(GtkWidget* txtField){
+	/*
+	 * TODO:
+	 * Make sure that the actual font color is readable in the current
+	 * context. In XFCE with a dark theme for example it won't be readable
+	 * as the font color is white and the textfield background color is
+	 * white too. On the other side in GNOME there is no problem. We should
+	 * validate the colors and set those in the program manually if
+	 * neccessary. 
+	 */
 	gtk_editable_set_editable(GTK_EDITABLE(txtField), TRUE);
 	gtk_widget_set_can_focus(GTK_WIDGET(txtField), TRUE);
 
