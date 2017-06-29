@@ -17,14 +17,15 @@
 
 #include "0_view/gui.h"
 #include "0_model/grabber.h"
+#include "tester.h"
 
 int main(int argc, char *argv[]){
 	/* Init main window */
 	//GUI gui;
 	//gui.start(argc, argv);
 
-    Grabber grabber("www.google.de");
-    grabber.setContent();
+    testFaker testUnit(argc, argv);
+    testUnit.test();
 
 	
 	return 0;
