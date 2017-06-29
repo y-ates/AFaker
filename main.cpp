@@ -20,13 +20,12 @@
 #include "tester.h"
 
 int main(int argc, char *argv[]){
-	/* Init main window */
-	//GUI gui;
-	//gui.start(argc, argv);
+    /* Init main window */
+    //GUI gui;
+    //gui.start(argc, argv);
 
     testFaker testUnit(argc, argv);
     testUnit.test();
-
-	
-	return 0;
+    
+    return 0;
 }

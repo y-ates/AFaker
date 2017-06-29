@@ -34,33 +34,39 @@
 
 class GUI{
  private:
-	
+    
  public:
-	GUI(){
-	}
-	
-	static void but_send_listen(GtkWidget* widget, std::vector<Form>& forms);
-	static void but_clicked(GtkWidget* widget, GtkWidget *txtField);
-	static void chkbox_on(GtkWidget* widget);
-	static void chkbox_off(GtkWidget* widget);
-	static void chkbox_listen(GtkWidget* cbox, GtkWidget* txtField);
-	static void choose_mailList(GtkWidget* widget, GtkWidget* parent_window);
-	static void choose_nameList(GtkWidget* widget, GtkWidget* parent_window);
-	static void create_helpWindow_about();
-	static GtkWidget* create_button(const char* label);
-	static GtkWidget* create_menubar(GtkWidget* grid_menubar,
-					 GtkWidget* main_window);
-	static GtkWidget* create_checkbox(const char* label, GtkWidget* txtField);
-	static GtkWidget* create_label(const char* txt_label);
-	static GtkWidget* create_txtField();
-	static const gchar* getContent_txtField(GtkWidget* txtField);
-	static void deactivate_txtField(GtkWidget* txtField);
-	static void activate_txtField(GtkWidget* txtField);
-	static GtkWidget* h_pack_three(GtkWidget* label, GtkWidget* txtField,
-				       GtkWidget* checkbox);
-	static GtkWidget* v_pack(std::vector<GtkWidget*> widgets, int size);
-	static std::vector<Form> create_grid_packed(std::vector<std::string> labels);
-	static void start(int argc, char** argv);
+    GUI(){
+    }
+
+    struct widgetContainer {
+        GtkWidget* first;
+        GtkWidget* second;
+    };
+    
+    static void but_send_listen(GtkWidget* widget, std::vector<Form>& forms);
+    static void but_clicked(GtkWidget* widget, GtkWidget *txtField);
+    static void chkbox_on(GtkWidget* widget);
+    static void chkbox_off(GtkWidget* widget);
+    //static void chkbox_listen(GtkWidget* cbox, GtkWidget* txtField);
+    static void chkbox_listen(widgetContainer context);
+    static void choose_mailList(GtkWidget* widget, GtkWidget* parent_window);
+    static void choose_nameList(GtkWidget* widget, GtkWidget* parent_window);
+    static void create_helpWindow_about();
+    static GtkWidget* create_button(const char* label);
+    static GtkWidget* create_menubar(GtkWidget* grid_menubar,
+                     GtkWidget* main_window);
+    static GtkWidget* create_checkbox(const char* label, GtkWidget* txtField);
+    static GtkWidget* create_label(const char* txt_label);
+    static GtkWidget* create_txtField();
+    static const gchar* getContent_txtField(GtkWidget* txtField);
+    static void deactivate_txtField(GtkWidget* txtField);
+    static void activate_txtField(GtkWidget* txtField);
+    static GtkWidget* h_pack_three(GtkWidget* label, GtkWidget* txtField,
+                                   GtkWidget* checkbox);
+    static GtkWidget* v_pack(std::vector<GtkWidget*> widgets, int size);
+    static std::vector<Form> create_grid_packed(std::vector<std::string> labels);
+    static void start(int argc, char** argv);
 };
 
 #endif

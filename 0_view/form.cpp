@@ -19,137 +19,137 @@
 
 
 Form::Form(){
-	const char* label_name = "test_label";
-	
-	label = create_label(label_name);
-	txtField = create_txtField();
-	checkbox = create_checkbox(label_name);
+    const char* label_name = "test_label";
+    
+    label = create_label(label_name);
+    txtField = create_txtField();
+    checkbox = create_checkbox(label_name);
 }
 
 Form::Form(const char *label_name){
-	label = create_label(label_name);
-	txtField = create_txtField();
-	checkbox = create_checkbox(label_name);
+    label = create_label(label_name);
+    txtField = create_txtField();
+    checkbox = create_checkbox(label_name);
 }
 
 GtkWidget* Form::get_hbox(){
-	return hbox;
+    return hbox;
 }
 
 GtkWidget* Form::get_vbox(){
-	return vbox;
+    return vbox;
 }
-	
+    
 GtkWidget* Form::get_label(){
-	return label;
+    return label;
 }
 
 GtkWidget* Form::get_txtField(){
-	return txtField;
+    return txtField;
 }
 
 GtkWidget* Form::get_checkbox(){
-	return checkbox;
+    return checkbox;
 }
 
 void Form::set_label(GtkWidget* label_widget){
-	label = label_widget;
+    label = label_widget;
 }
 
 void Form::set_txtField(GtkWidget* txtField_widget){
-	txtField = txtField_widget;
+    txtField = txtField_widget;
 }
 
 void Form::set_txtField_content(const char* content){
-	if(content[0] != 0)
-		gtk_entry_set_text(GTK_ENTRY(txtField), content);
-	else
-		gtk_entry_set_text(GTK_ENTRY(txtField), "None");
+    if(content[0] != 0)
+        gtk_entry_set_text(GTK_ENTRY(txtField), content);
+    else
+        gtk_entry_set_text(GTK_ENTRY(txtField), "None");
 }
 
 void Form::set_checkbox(GtkWidget* checkbox_widget){
-	checkbox = checkbox_widget;
+    checkbox = checkbox_widget;
 }
 
 void Form::set_vbox(GtkWidget* vbox_widget){
-	vbox = vbox_widget;
+    vbox = vbox_widget;
 }
 
 void Form::set_hbox(GtkWidget* hbox_widget){
-	hbox = hbox_widget;
+    hbox = hbox_widget;
 }
 
 GtkWidget* Form::create_checkbox(const char* label){
-	GtkWidget *cbox;
+    GtkWidget *cbox;
 
-	cbox = gtk_check_button_new_with_label(label);
-	checkbox = cbox;
+    cbox = gtk_check_button_new_with_label(label);
+    checkbox = cbox;
 
-	/*
-	 * Callback function has to be static. Some problems here. FixIt.
-	 */
-	//g_signal_connect(GTK_WIDGET(cbox), "toggled",
-	//		 G_CALLBACK(chkbox_listen), cbox);
-	
-	return cbox;
+    /*
+     * Callback function has to be static. Some problems here. FixIt.
+     */
+    //g_signal_connect(GTK_WIDGET(cbox), "toggled",
+    //       G_CALLBACK(chkbox_listen), cbox);
+    
+    return cbox;
 }
 
 GtkWidget* Form::create_label(const char *txt_label){
-	GtkWidget *label = gtk_label_new(txt_label);
+    GtkWidget *label = gtk_label_new(txt_label);
 
-	gtk_label_set_text(GTK_LABEL(label), txt_label);
-	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
+    gtk_label_set_text(GTK_LABEL(label), txt_label);
+    gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 
-	return label;
+    return label;
 }
 
 GtkWidget* Form::create_txtField(){
-	GtkWidget *tField = gtk_entry_new();
+    GtkWidget *tField = gtk_entry_new();
 
-	return tField;
+    return tField;
 }
 
 void Form::chkbox_on(){
-	//std::cout << "on" << std::endl;
-	activate_txtField();
-	/*
-	 * TODO:
-	 * User wants to edit form field manually. Set textfield
-	 * editable and get value when "send" button is clicked
-	 */
+    //std::cout << "on" << std::endl;
+    activate_txtField();
+    /*
+     * TODO:
+     * User wants to edit form field manually. Set textfield
+     * editable and get value when "send" button is clicked
+     */
 }
 
 void Form::chkbox_off(){
-	//std::cout << "off" << std::endl;
-	deactivate_txtField();
-	/*
-	 * TODO:
-	 * Checkbox is off per default. That means that the form is
-	 * filled automatically with dynamically generated data.
-	 */
+    //std::cout << "off" << std::endl;
+    deactivate_txtField();
+    /*
+     * TODO:
+     * Checkbox is off per default. That means that the form is
+     * filled automatically with dynamically generated data.
+     */
 }
 
 void Form::chkbox_listen(GtkWidget* cbox){
-	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cbox)))
-		chkbox_on();
-	else
-		chkbox_off();
+    if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cbox)))
+        chkbox_on();
+    else
+        chkbox_off();
 }
 
 void Form::deactivate_txtField(){
-	gtk_editable_set_editable(GTK_EDITABLE(txtField), FALSE);
-	gtk_widget_set_can_focus(GTK_WIDGET(txtField), FALSE);
+    gtk_editable_set_editable(GTK_EDITABLE(txtField), FALSE);
+    gtk_widget_set_can_focus(GTK_WIDGET(txtField), FALSE);
 
-	const GdkColor GREY = {0, 48000, 48000, 48000};
-	gtk_widget_modify_base(txtField, GTK_STATE_NORMAL, &GREY);
+    const GdkColor GREY = {0, 48000, 48000, 48000};
+    gtk_widget_modify_base(txtField, GTK_STATE_NORMAL, &GREY);
 
-	//gtk_entry_set_text(GTK_ENTRY(tField), "TEST");
+    //gtk_entry_set_text(GTK_ENTRY(tField), "TEST");
 }
 
 void Form::activate_txtField(){
-	gtk_editable_set_editable(GTK_EDITABLE(txtField), TRUE);
-	gtk_widget_set_can_focus(GTK_WIDGET(txtField), TRUE);
+    gtk_editable_set_editable(GTK_EDITABLE(txtField), TRUE);
+    gtk_widget_set_can_focus(GTK_WIDGET(txtField), TRUE);
 
-	const GdkColor WHITE = {0, 65535, 65535, 65535};
-	gtk_widget_modify_base(txtField, GTK_STATE_NORMAL, &WHITE);
+    const GdkColor WHITE = {0, 65535, 65535, 65535};
+    gtk_widget_modify_base(txtField, GTK_STATE_NORMAL, &WHITE);
 }
