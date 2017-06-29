@@ -18,22 +18,27 @@
 #ifndef _GRABBER_H
 #define _GRABBER_H
 
-#include <string>
-#include <cstring>
 #include <curl/curl.h>
 
 class Grabber {
  private:
+    struct memoryStruct {
+        char *memory;
+        size_t size;
+    };
     const char* url;
-    std::string data;
+    memoryStruct data;
+
     
  public:
-    Grabber();
-    Grabber(char* url_string);
+    Grabber(void);
+    Grabber(const char* url_string);
 
-    static size_t writeCallback(void *ptr, size_t size, size_t nmemb, void *data);
-    static void* myrealloc(void *ptr, size_t size);
-    void getContent();
+    const static void* myrealloc(void *ptr, size_t size);
+    static size_t writeCallback(void *ptr, size_t size,
+                                size_t nmemb, void *data);
+    void setContent(void);
+    char* getContent(void);
 };
 
 #endif

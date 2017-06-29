@@ -16,61 +16,65 @@
  ******************************************************************************/
 
 #include "grabber.h"
-#include <iostream>
+#include <stdlib.h>  // malloc, realloc
+#include <cstring>   // memcpy 
 
-using namespace std;
-
-struct memoryStruct {
-    char *memory;
-    size_t size;
-};
-
-Grabber::Grabber() {
-    url = "http://www.rub.de";  // test url
+Grabber::Grabber(void) {
+    url = "http://www.google.com";  // test url
 }
 
-Grabber::Grabber(char* url_string) {
+Grabber::Grabber(const char* url_string) {
     url = url_string;
 }
 
-void* Grabber::myrealloc(void *ptr, size_t size) {
-   if(ptr)
-      return realloc(ptr, size);
-    else
-      return malloc(size);
- }
+const void* Grabber::myrealloc(void *ptr, size_t size) {
+    if (ptr) {
+        return realloc(ptr, size);
+    } else {
+        return malloc(size);
+    }
+}
 
-size_t Grabber::writeCallback(void *ptr, size_t size, size_t nmemb, void *data) {
+size_t Grabber::writeCallback(void *ptr, size_t size,
+                              size_t nmemb, void *data) {
    size_t realsize = size * nmemb;
    struct memoryStruct *mem = (struct memoryStruct *)data;
    mem->memory = (char *)myrealloc(mem->memory, mem->size + realsize + 1);
+
    if (mem->memory) {
       memcpy(&(mem->memory[mem->size]), ptr, realsize);
       mem->size += realsize;
       mem->memory[mem->size] = 0;
    }
+
    return realsize;
 }
 
-void Grabber::getContent() {
-    CURL* curl; //our curl object
+void Grabber::setContent(void) {
+    CURL* curl;
     struct memoryStruct website_content;
-    website_content.memory=NULL;
-    website_content.size = 0; 
+    website_content.memory = NULL;
+    website_content.size = 0;
 
-    curl_global_init(CURL_GLOBAL_ALL); //pretty obvious
+    curl_global_init(CURL_GLOBAL_ALL);
     curl = curl_easy_init();
 
     curl_easy_setopt(curl, CURLOPT_URL, url);
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &Grabber::writeCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&website_content);
-    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L); //tell curl to output its progress
+    //curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+    curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
 
     curl_easy_perform(curl);
 
-    std::cout << std::endl << data << std::endl;
-    //std::cin.get();
+    //std::cout << std::endl << website_content.memory << std::endl;
+    data = website_content;
 
     curl_easy_cleanup(curl);
     curl_global_cleanup();
+}
+
+char* Grabber::getContent(void) {
+    return data.memory;
 }

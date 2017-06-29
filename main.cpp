@@ -23,8 +23,9 @@ int main(int argc, char *argv[]){
 	//GUI gui;
 	//gui.start(argc, argv);
 
-    Grabber grabber;
-    grabber.getContent();
+    Grabber grabber("www.google.de");
+    grabber.setContent();
+
 	
 	return 0;
 }
