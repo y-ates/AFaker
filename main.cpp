@@ -16,12 +16,15 @@
  ******************************************************************************/
 
 #include "0_view/gui.h"
+#include "0_model/grabber.h"
 
 int main(int argc, char *argv[]){
 	/* Init main window */
-	GUI gui;
+	//GUI gui;
+	//gui.start(argc, argv);
 
-	gui.start(argc, argv);
+    Grabber grabber;
+    grabber.getContent();
 	
 	return 0;
 }
