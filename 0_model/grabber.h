@@ -26,13 +26,13 @@ class Grabber {
         char *memory;
         size_t size;
     };
-    const char* url;
+    const char *url;
     memoryStruct data;
 
-    
  public:
     Grabber(void);
-    Grabber(const char* url_string);
+    Grabber(const char *url_string);
+    ~Grabber(void);
 
     const static void* myrealloc(void *ptr, size_t size);
     static size_t writeCallback(void *ptr, size_t size,

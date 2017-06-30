@@ -19,12 +19,15 @@
 #include <stdlib.h>  // malloc, realloc
 #include <cstring>   // memcpy 
 
-Grabber::Grabber(void) {
-    url = "http://www.google.com";  // test url
+Grabber::Grabber(void)
+    :url("http://www.google.com") {
 }
 
-Grabber::Grabber(const char* url_string) {
-    url = url_string;
+Grabber::Grabber(const char *url_string)
+    :url(url_string) {
+}
+
+Grabber::~Grabber(void) {
 }
 
 const void* Grabber::myrealloc(void *ptr, size_t size) {
@@ -47,11 +50,12 @@ size_t Grabber::writeCallback(void *ptr, size_t size,
       mem->memory[mem->size] = 0;
    }
 
+   //free(mem->memory);
    return realsize;
 }
 
 void Grabber::setContent(void) {
-    CURL* curl;
+    CURL *curl;
     struct memoryStruct website_content;
     website_content.memory = NULL;
     website_content.size = 0;
