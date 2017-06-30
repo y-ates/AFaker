@@ -27,8 +27,8 @@ Parser::~Parser() {
 
 int Parser::executeXPath(const char* filename, const xmlChar* xpath_expression) {
     xmlDocPtr document;
-    xmlXPathContextPtr xpath_context; 
-    xmlXPathObjectPtr xpath_object; 
+    xmlXPathContextPtr xpath_context;
+    xmlXPathObjectPtr xpath_object;
 
     document = xmlParseFile(filename);
     if (document == NULL) {
@@ -40,21 +40,21 @@ int Parser::executeXPath(const char* filename, const xmlChar* xpath_expression) 
     if (xpath_context == NULL) {
         std::cout << "[-] Error: xmlXpathNewContext() did not work." << std::endl;
         xmlFreeDoc(document);
-        return -1;        
+        return -1;
     }
 
     xpath_object = xmlXPathEvalExpression(xpath_expression, xpath_context);
     if (xpath_object == NULL) {
         std::cout << "[-] Error: xmlXPathEvalExpression() did not work." << std::endl;
         xmlFreeDoc(document);
-        xmlXPathFreeContext(xpath_context); 
-        return -1;                
+        xmlXPathFreeContext(xpath_context);
+        return -1;
     }
 
     print_nodes(xpath_object->nodesetval);
 
     xmlFreeDoc(document);
-    xmlXPathFreeContext(xpath_context); 
+    xmlXPathFreeContext(xpath_context);
     xmlXPathFreeObject(xpath_object);
     return 0;
 }
@@ -67,15 +67,32 @@ void Parser::print_nodes(xmlNodeSetPtr nodes) {
     for (int i=0; i<size; ++i) {
         if (nodes->nodeTab[i]->type == XML_NAMESPACE_DECL) {
             xmlNsPtr ns;
-            
             ns = (xmlNsPtr)nodes->nodeTab[i];
             cur = (xmlNodePtr)ns->next;
+
             if (cur->ns) {
                 std::cout << "namespace " << ns->prefix << "=" << ns->href
                           << "for node " << cur->ns->href << ":" << cur->name
                           << std::endl;
+            } else {
+                std::cout << "namespace " << ns->prefix << "=" << ns->href
+                          << "for node " << cur->name
+                          << std::endl;
             }
+        } else if (nodes->nodeTab[i]->type == XML_ELEMENT_NODE) {
+            cur = nodes->nodeTab[i];
 
+            if (cur->ns) {
+                std::cout << "element node " << cur->ns->href << ":" << cur->name
+                          << std::endl;
+            } else {
+                std::cout << "element node " << cur->name
+                          << std::endl;
+            }
+        } else {
+            cur = nodes->nodeTab[i];
+            std::cout << "node " << cur->name << ": type " << cur->type
+                      << std::endl;
         }
     }
 }
