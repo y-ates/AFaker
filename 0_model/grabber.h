@@ -41,4 +41,4 @@ class Grabber {
     char* getContent(void);
 };
 
-#endif
+#endif  // _GRABBER_H

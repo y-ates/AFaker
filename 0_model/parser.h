@@ -37,4 +37,4 @@ class Parser {
     void print_nodes(xmlNodeSetPtr nodes);
 };
 
-#endif
+#endif  // _PARSER_H

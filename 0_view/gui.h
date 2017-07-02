@@ -69,4 +69,4 @@ class GUI{
     static void start(int argc, char** argv);
 };
 
-#endif
+#endif  // _GUI_H
