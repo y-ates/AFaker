@@ -20,6 +20,7 @@
 
 #include <iostream>
 
+// libxml++-2.6
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
@@ -27,7 +28,7 @@
 
 class Parser {
  private:
-    
+
  public:
     Parser();
     ~Parser();

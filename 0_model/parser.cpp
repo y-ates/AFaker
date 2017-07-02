@@ -25,7 +25,8 @@ Parser::~Parser() {
     xmlCleanupParser();
 }
 
-int Parser::executeXPath(const char* filename, const xmlChar* xpath_expression) {
+int Parser::executeXPath(const char* filename,
+                         const xmlChar* xpath_expression) {
     xmlDocPtr document;
     xmlXPathContextPtr xpath_context;
     xmlXPathObjectPtr xpath_object;
@@ -38,14 +39,16 @@ int Parser::executeXPath(const char* filename, const xmlChar* xpath_expression) 
 
     xpath_context = xmlXPathNewContext(document);
     if (xpath_context == NULL) {
-        std::cout << "[-] Error: xmlXpathNewContext() did not work." << std::endl;
+        std::cout << "[-] Error: xmlXpathNewContext() did not work."
+                  << std::endl;
         xmlFreeDoc(document);
         return -1;
     }
 
     xpath_object = xmlXPathEvalExpression(xpath_expression, xpath_context);
     if (xpath_object == NULL) {
-        std::cout << "[-] Error: xmlXPathEvalExpression() did not work." << std::endl;
+        std::cout << "[-] Error: xmlXPathEvalExpression() did not work."
+                  << std::endl;
         xmlFreeDoc(document);
         xmlXPathFreeContext(xpath_context);
         return -1;
@@ -64,7 +67,7 @@ void Parser::print_nodes(xmlNodeSetPtr nodes) {
     int size;
 
     size = (nodes) ? nodes->nodeNr : 0;
-    for (int i=0; i<size; ++i) {
+    for (int i=0; i < size; ++i) {
         if (nodes->nodeTab[i]->type == XML_NAMESPACE_DECL) {
             xmlNsPtr ns;
             ns = (xmlNsPtr)nodes->nodeTab[i];
@@ -83,7 +86,8 @@ void Parser::print_nodes(xmlNodeSetPtr nodes) {
             cur = nodes->nodeTab[i];
 
             if (cur->ns) {
-                std::cout << "element node " << cur->ns->href << ":" << cur->name
+                std::cout << "element node " << cur->ns->href << ":"
+                          << cur->name
                           << std::endl;
             } else {
                 std::cout << "element node " << cur->name
