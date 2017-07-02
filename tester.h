@@ -29,6 +29,7 @@ class testFaker {
     void test();
     void testGrabber();
     void testGUI();
+    void testFiller();
 };
 
-#endif
+#endif  // _TESTER_H

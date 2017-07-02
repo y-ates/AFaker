@@ -17,6 +17,7 @@
 
 #include "0_view/gui.h"
 #include "0_model/grabber.h"
+#include "0_model/filler.h"
 #include "tester.h"
 #include <iostream>
 
@@ -34,7 +35,27 @@ void testFaker::test() {
     std::cout << std::endl << "[#] Note: Done." << std::endl << std::endl;
     
     std::cout << "[##]: Testing GUI functions..." << std::endl;
-    testGUI();    
+    testGUI();
+
+    std::cout << std::endl << "[#] Note: Done." << std::endl << std::endl;
+    
+    std::cout << "[##]: Testing filler functions..." << std::endl;
+    testFiller();
+
+    std::cout << std::endl << "[#] Note: Done." << std::endl << std::endl;
+}
+
+void testFaker::testFiller() {
+    Filler filler;
+    std::string first_name = filler.getFirstName();
+    std::string last_name = filler.getSecondName();
+    std::cout << "[###]: Random first name: " << first_name
+              << std::endl;
+    std::cout << "[###]: Random second name: " << last_name
+              << std::endl;
+    std::cout << "[###]: Resulting name: " << first_name << " " << last_name
+              << std::endl;
+
 }
 
 void testFaker::testGrabber() {
