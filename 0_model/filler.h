@@ -29,6 +29,8 @@
 #include <iterator>
 #include <algorithm>  // std::count
 
+#include <curl/curl.h>
+
 class Filler {
  private:
     const char *first_name_listpath = "0_model/wordfiles/first_name.txt";
@@ -40,8 +42,11 @@ class Filler {
     std::string getFirstName(void);
     std::string getSecondName(void);
     std::string getEmailAdress(void);
+    std::string generateEmailAdress(const std::string first_name,
+                                    const std::string last_name);
     std::string getStringAtLine(const unsigned int line, const char *filename);
     unsigned int getLineCount(const char *filename);
+    void sendPOST(std::string url, std::string post_value);
 };
 
 #endif  // _FILLER_H

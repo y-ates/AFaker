@@ -43,12 +43,16 @@ void testFaker::test() {
     testFiller();
 
     std::cout << std::endl << "[#] Note: Done." << std::endl << std::endl;
+
+    std::cout << "[##]: Testing postSend() function..." << std::endl;
+    testSendPost();
 }
 
 void testFaker::testFiller() {
     Filler filler;
     std::string first_name = filler.getFirstName();
     std::string last_name = filler.getSecondName();
+
     std::cout << "[###]: Random first name: " << first_name
               << std::endl;
     std::cout << "[###]: Random second name: " << last_name
@@ -77,4 +81,10 @@ void testFaker::testGUI() {
     std::cout << "[###]: Running GUI..." << std::endl;
 	GUI gui;
 	gui.start(argc, argv);    
+}
+
+void testFaker::testSendPost() {
+    Filler filler;
+    filler.sendPOST("https://www.trash-mail.com/inbox/", "form-postbox=test");
+    //filler.sendPOST("http://localhost:8000/getpost.php", "name=test");
 }

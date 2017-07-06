@@ -30,6 +30,7 @@ class testFaker {
     void testGrabber();
     void testGUI();
     void testFiller();
+    void testSendPost();
 };
 
 #endif  // _TESTER_H

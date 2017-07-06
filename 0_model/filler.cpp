@@ -16,6 +16,7 @@
  ******************************************************************************/
 
 #include "filler.h"
+#include "grabber.h"
 
 Filler::Filler(void) {
     srand(time(NULL));
@@ -38,6 +39,13 @@ std::string Filler::getSecondName(void) {
 
 std::string Filler::getEmailAdress(void) {
     return "[-] Error: getEmailAdress";
+}
+
+std::string Filler::generateEmailAdress(const std::string first_name,
+                                         const std::string last_name) {
+    const std::string suffix = "@gmx.de";
+
+    return first_name + "." + last_name + suffix;
 }
 
 std::string Filler::getStringAtLine(const unsigned int line,
@@ -67,4 +75,33 @@ unsigned int Filler::getLineCount(const char *filename) {
                       std::istream_iterator<char>(),
                       '\n');
     return line_count;
+}
+
+void Filler::sendPOST(std::string url, std::string post_value) {
+    CURL *curl;
+    CURLcode res;
+    Grabber grabber;
+    struct Grabber::memoryStruct website_content;
+    website_content.memory = NULL;
+    website_content.size = 0;
+
+    curl = curl_easy_init();
+    if (curl) {
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_POST, 1);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &grabber.writeCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&website_content);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post_value.c_str());
+
+        res = curl_easy_perform(curl);
+        if (res != CURLE_OK) {
+            std::cout << "[-] Error: " << curl_easy_strerror(res) << std::endl;
+        }
+
+        std::cout << std::endl << "Result: " << website_content.memory
+                  << std::endl;
+        curl_easy_cleanup(curl);
+    }
+    
+    curl_global_cleanup();
 }
