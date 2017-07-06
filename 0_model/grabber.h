@@ -21,11 +21,13 @@
 #include <curl/curl.h>
 
 class Grabber {
- private:
+ public:
     struct memoryStruct {
         char *memory;
         size_t size;
     };
+
+ private:
     const char *url;
     memoryStruct data;
 
